@@ -23,9 +23,17 @@ gradlePlugin {
     plugins {
         register("semVerPlugin") {
             id = "ch.fuzzle.gradle.semver"
+            displayName = "fuzzle gradle semantic versioning plugin"
+            description = "This plugin add tasks to facilitate versioning of fuzzle projects."
             implementationClass = "SemanticVersioning"
         }
     }
+}
+
+pluginBundle {
+    website = "https://github.com/f-u-z-z-l-e/semver-plugin"
+    vcsUrl = "https://github.com/f-u-z-z-l-e/semver-plugin"
+    tags = listOf("gradle", "build")
 }
 
 tasks.wrapper {
