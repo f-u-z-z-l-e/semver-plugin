@@ -11,8 +11,7 @@ group = "ch.fuzzle.gradle.semver"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("junit:junit:4.12")
-    testImplementation("org.hamcrest:hamcrest:2.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.0")
 }
 
 repositories {
