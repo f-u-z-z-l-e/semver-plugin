@@ -40,3 +40,7 @@ tasks.wrapper {
     distributionType = DistributionType.ALL
     distributionSha256Sum = "9dc729f6dbfbbc4df1692665d301e028976dacac296a126f16148941a9cf012e"
 }
+
+kotlinDslPluginOptions {
+    experimentalWarning.set(false)
+}
