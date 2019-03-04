@@ -1,7 +1,7 @@
 /**
  * Comparator for Version
  *
- * Note that the properties 'preRelease' and 'buildMetadate'
+ * Note that the properties 'preRelease' and 'buildMetadata'
  * do not effect the comparison at all.
  * */
 class CompareVersion : Comparator<Version> {
