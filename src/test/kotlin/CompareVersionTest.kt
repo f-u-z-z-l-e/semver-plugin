@@ -33,5 +33,18 @@ class CompareVersionTest {
         assertEquals(0, CompareVersion().compare(version001, version001))
     }
 
+    @Test
+    fun compareWithPreRelease() {
+        val rc1 = PreRelease("rc1")
+        val rc2 = PreRelease("rc2")
+
+        val version000 = Version(major = 0, minor = 0, patch = 0, preRelease = rc1)
+        val version001 = Version(major = 0, minor = 0, patch = 1, preRelease = rc2)
+        assertEquals(1, CompareVersion().compare(version001, version000))
+        assertEquals(-1, CompareVersion().compare(version000, version001))
+        assertEquals(0, CompareVersion().compare(version000, version000))
+        assertEquals(0, CompareVersion().compare(version001, version001))
+    }
+
 }
 

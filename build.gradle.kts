@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version("1.3.20")
+    id("org.jetbrains.kotlin.jvm") version("1.3.21")
     id("com.gradle.plugin-publish") version "0.10.0"
     id("org.gradle.kotlin.kotlin-dsl") version "1.1.3"
 }
@@ -11,7 +11,8 @@ group = "ch.fuzzle.gradle.semver"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.4.2")
 }
 
 repositories {
@@ -36,11 +37,18 @@ pluginBundle {
 }
 
 tasks.wrapper {
-    gradleVersion = "5.2.1"
+    gradleVersion = "5.4.1"
     distributionType = DistributionType.ALL
-    distributionSha256Sum = "9dc729f6dbfbbc4df1692665d301e028976dacac296a126f16148941a9cf012e"
+    distributionSha256Sum = "14cd15fc8cc8705bd69dcfa3c8fefb27eb7027f5de4b47a8b279218f76895a91"
 }
 
 kotlinDslPluginOptions {
     experimentalWarning.set(false)
+}
+
+tasks {
+    // Use the built-in JUnit support of Gradle.
+    "test"(Test::class) {
+        useJUnitPlatform()
+    }
 }
