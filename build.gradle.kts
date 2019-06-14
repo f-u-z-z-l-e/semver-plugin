@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 
 plugins {
+    id("org.jetbrains.intellij") version "0.4.9"
     id("org.jetbrains.kotlin.jvm") version("1.3.21")
     id("com.gradle.plugin-publish") version "0.10.0"
     id("org.gradle.kotlin.kotlin-dsl") version "1.1.3"

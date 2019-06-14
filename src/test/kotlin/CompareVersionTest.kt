@@ -51,6 +51,19 @@ class CompareVersionTest {
 
     @Test
     fun compareWithBuildMetadata() {
+        val buildMetadata1 = BuildMetadata("25c2427")
+        val buildMetadata2 = BuildMetadata("715b90e")
+
+        val version000 = Version(major = 0, minor = 0, patch = 0, buildMetadata = buildMetadata1)
+        val version001 = Version(major = 0, minor = 0, patch = 0, buildMetadata = buildMetadata2)
+        assertEquals(0, CompareVersion().compare(version001, version000))
+        assertEquals(0, CompareVersion().compare(version000, version001))
+        assertEquals(0, CompareVersion().compare(version000, version000))
+        assertEquals(0, CompareVersion().compare(version001, version001))
+    }
+
+    @Test
+    fun compareWithPreReleaseAndBuildMetadata() {
         val rc1 = PreRelease("rc1")
 
         val buildMetadata1 = BuildMetadata("25c2427")
