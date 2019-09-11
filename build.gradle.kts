@@ -1,10 +1,10 @@
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 
 plugins {
-    id("org.jetbrains.intellij") version "0.4.9"
-    id("org.jetbrains.kotlin.jvm") version("1.3.21")
+    `kotlin-dsl`
+    kotlin("jvm") version "1.3.41"
+    id("org.jetbrains.intellij") version "0.4.10"
     id("com.gradle.plugin-publish") version "0.10.0"
-    id("org.gradle.kotlin.kotlin-dsl") version "1.1.3"
 }
 
 description = "fuzzle gradle semantic versioning plugin"
@@ -12,8 +12,9 @@ group = "ch.fuzzle.gradle.semver"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.3.2.201906051522-r")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
 
 repositories {
@@ -38,9 +39,9 @@ pluginBundle {
 }
 
 tasks.wrapper {
-    gradleVersion = "5.4.1"
+    gradleVersion = "5.6.2"
     distributionType = DistributionType.ALL
-    distributionSha256Sum = "14cd15fc8cc8705bd69dcfa3c8fefb27eb7027f5de4b47a8b279218f76895a91"
+    distributionSha256Sum = "027fdd265d277bae65a0d349b6b8da02135b0b8e14ba891e26281fa877fe37a2"
 }
 
 kotlinDslPluginOptions {
