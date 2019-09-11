@@ -12,7 +12,7 @@ group = "ch.fuzzle.gradle.semver"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.eclipse.jgit:org.eclipse.jgit:5.3.2.201906051522-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.4.3.201909031940-r")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }

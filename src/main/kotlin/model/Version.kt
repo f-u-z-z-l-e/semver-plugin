@@ -15,8 +15,8 @@ data class Version(val version: String, val prefix: String?) {
         major = matcher.group(1)
         minor = matcher.group(2)
         patch = matcher.group(3)
-        preRelease = matcher.group(4)?.substring(1)
-        buildMetadata = matcher.group(5)?.substring(1)
+        preRelease = matcher.group(4)
+        buildMetadata = matcher.group(5)
     }
 
     override fun toString(): String {
