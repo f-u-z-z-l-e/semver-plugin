@@ -1,3 +1,5 @@
+package util
+
 import model.Version
 
 /**
@@ -5,7 +7,7 @@ import model.Version
  *
  * Note that the property 'buildMetadata' does not effect the comparison at all.
  * */
-class CompareVersion : Comparator<Version> {
+class VersionComparator : Comparator<Version> {
     override fun compare(o1: Version, o2: Version): Int {
         return when {
             o1.major != o2.major -> o1.major.compareTo(o2.major)
