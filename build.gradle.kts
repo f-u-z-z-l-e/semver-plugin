@@ -3,16 +3,16 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version "1.3.41"
-    id("org.jetbrains.intellij") version "0.4.10"
     id("com.gradle.plugin-publish") version "0.10.0"
 }
 
-description = "fuzzle gradle semantic versioning plugin"
+description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib", "1.3.41"))
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.4.3.201909031940-r")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
@@ -25,8 +25,8 @@ gradlePlugin {
     plugins {
         register("semVerPlugin") {
             id = "ch.fuzzle.gradle.semver"
-            displayName = "fuzzle gradle semantic versioning plugin"
-            description = "This plugin add tasks to facilitate versioning of fuzzle projects."
+            displayName = "gradle semantic versioning plugin"
+            description = "This plugin add tasks to facilitate semantic versioning of gradle projects."
             implementationClass = "SemanticVersioning"
         }
     }

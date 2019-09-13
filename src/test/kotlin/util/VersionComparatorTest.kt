@@ -3,7 +3,6 @@ package util
 import model.Version
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import util.VersionComparator
 
 class VersionComparatorTest {
 
