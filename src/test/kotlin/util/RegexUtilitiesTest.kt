@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 internal class RegexUtilitiesTest {
 
     @Test
-    fun matchMinimalSemanticVersion() {
+    fun `Match minimal SemanticVersion`() {
         val matcher = matchSemanticVersion("1.0.1", null)
         assertEquals(matcher.matches(), true)
         assertEquals("1.0.1", matcher.group(0))
@@ -18,7 +18,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchPrefixedMinimalSemanticVersion() {
+    fun `Match prefixed minimal SemanticVersion`() {
         val matcher = matchSemanticVersion("v1.0.1", "v")
         assertEquals(matcher.matches(), true)
         assertEquals("v1.0.1", matcher.group(0))
@@ -30,7 +30,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchSemanticVersionWithPreRelease() {
+    fun `Match SemanticVersion with PreRelease`() {
         val matcher = matchSemanticVersion("1.0.1-rc1", null)
         assertEquals(matcher.matches(), true)
         assertEquals("1.0.1-rc1", matcher.group(0))
@@ -42,7 +42,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchPrefixedSemanticVersionWithPreRelease() {
+    fun `Match prefixed SemanticVersion with PreRelease`() {
         val matcher = matchSemanticVersion("v1.0.1-rc1", "v")
         assertEquals(matcher.matches(), true)
         assertEquals("v1.0.1-rc1", matcher.group(0))
@@ -54,7 +54,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchSemanticVersionWithBuildMetadata() {
+    fun `Match SemanticVersion with BuildMetadata`() {
         val matcher = matchSemanticVersion("1.0.1+asdfsfd", null)
         assertEquals(matcher.matches(), true)
         assertEquals("1.0.1+asdfsfd", matcher.group(0))
@@ -66,7 +66,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchPrefixedSemanticVersionWithBuildMetadata() {
+    fun `Match prefixed SemanticVersion with BuildMetadata`() {
         val matcher = matchSemanticVersion("v1.0.1+asdfsfd", "v")
         assertEquals(matcher.matches(), true)
         assertEquals("v1.0.1+asdfsfd", matcher.group(0))
@@ -78,7 +78,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchSemanticVersionWithPrereleaseAndBuildMetadata() {
+    fun `Match SemanticVersion with Prerelease and BuildMetadata`() {
         val matcher = matchSemanticVersion("1.0.1-rc1+asdfsfd", null)
         assertEquals(matcher.matches(), true)
         assertEquals("1.0.1-rc1+asdfsfd", matcher.group(0))
@@ -90,7 +90,7 @@ internal class RegexUtilitiesTest {
     }
 
     @Test
-    fun matchPrefixedSemanticVersionWithPreReleaseAndBuildMetadata() {
+    fun `Match prefixed SemanticVersion with PreRelease and BuildMetadata`() {
         val matcher = matchSemanticVersion("v1.0.1-rc1+asdfsfd", "v")
         assertEquals(matcher.matches(), true)
         assertEquals("v1.0.1-rc1+asdfsfd", matcher.group(0))

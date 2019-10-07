@@ -4,27 +4,44 @@ import util.matchSemanticVersion
 
 data class Version(val version: String, val prefix: String?) {
     private val matcher = matchSemanticVersion(version, prefix)
-    val major: String
-    val minor: String
-    val patch: String
-    val preRelease: String?
-    private val buildMetadata: String?
+    var major: Int
+    var minor: Int
+    var patch: Int
+    var preRelease: String?
+    var buildMetadata: String?
 
     init {
         matcher.matches()
-        major = matcher.group(1)
-        minor = matcher.group(2)
-        patch = matcher.group(3)
+        major = matcher.group(1).toInt()
+        minor = matcher.group(2).toInt()
+        patch = matcher.group(3).toInt()
         preRelease = matcher.group(4)
         buildMetadata = matcher.group(5)
     }
 
     override fun toString(): String {
-        var result = "$major.$minor.$patch"
+        val prefixString = if (prefix.isNullOrBlank()) "" else prefix
+        var result = "$prefixString$major.$minor.$patch"
 
-        if (preRelease != null) result = with(result) { plus("-$preRelease") }
-        if (buildMetadata != null) result = with(result) { plus("+$buildMetadata") }
+        if (!preRelease.isNullOrBlank()) result = with(result) { plus("-$preRelease") }
+        if (!buildMetadata.isNullOrBlank()) result = with(result) { plus("+$buildMetadata") }
 
         return result
     }
+
+    fun incrementMajorVersion() {
+        major += 1
+        minor = 0
+        patch = 0
+    }
+
+    fun incrementMinorVersion() {
+        minor += 1
+        patch = 0
+    }
+
+    fun incrementPatchVersion() {
+        patch += 1
+    }
+
 }
