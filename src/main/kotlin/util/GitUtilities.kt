@@ -30,13 +30,15 @@ fun getCurrentVersion(projectDir: File, prefix: String?): Version {
             .filterIsInstance<RevTag>()
             .map { it.tagName }
             .filter { it.startsWith(prefixString) }
+            .map { Version(it, prefix) }
+            .sortedWith(VersionComparator)
             .toList()
 
     walk.dispose()
 
     if (tags.isEmpty()) return Version(prefixString + "0.0.0", prefix)
 
-    return Version(tags.last(), prefix)
+    return tags.last()
 }
 
 @Throws(IOException::class)
