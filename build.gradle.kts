@@ -10,7 +10,7 @@ plugins {
 
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
-version = "0.0.5-SNAPSHOT"
+version = "0.0.6-SNAPSHOT"
 
 dependencies {
     implementation(kotlin("stdlib", "1.3.50"))

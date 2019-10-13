@@ -56,14 +56,19 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
     try {
         RevWalk(repository).use { walk ->
             val commit = walk.parseCommit(headCommit)
-            val commitInfo = CommitInfo(commit.fullMessage, commit.id.name)
+            val commitInfo = CommitInfo(
+                    commit.fullMessage,
+                    commit.id.name.substring(IntRange(0, 7)),
+                    commit.authorIdent.name,
+                    commit.authorIdent.emailAddress
+            )
 
             walk.dispose()
             return commitInfo
         }
     } catch (e: IOException) {
         // exception ignored intentionally.
-        return CommitInfo(null, null)
+        return CommitInfo(null, null, null, null)
     }
 }
 

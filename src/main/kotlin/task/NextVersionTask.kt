@@ -66,6 +66,8 @@ open class NextVersionTask : DefaultTask() {
         if (project.version == Project.DEFAULT_VERSION) {
             project.version = version.toString()
         }
+
+        project.extensions.extraProperties.set("gitCommitInfo", headCommitInfo)
     }
 
     private fun getStringOrDefault(prefix: String?, default: String): String {
