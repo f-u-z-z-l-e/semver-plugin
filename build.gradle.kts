@@ -5,12 +5,12 @@ plugins {
     kotlin("jvm") version "1.3.50"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
-    id("ch.fuzzle.gradle.semver") version "0.0.2-SNAPSHOT"
+//    id("ch.fuzzle.gradle.semver") version "0.0.2-SNAPSHOT"
 }
 
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
-//version = "0.0.2-SNAPSHOT"
+version = "0.0.3-SNAPSHOT"
 
 dependencies {
     implementation(kotlin("stdlib", "1.3.50"))
@@ -60,8 +60,8 @@ tasks {
     }
 }
 
-semver {
-    prefix.value( "v")
+//semver {
+//    prefix.value( "v")
 //    preRelease.value("rc1")
 //    releaseBranch.value("master")
-}
+//}

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
-import java.nio.file.Files
+import java.nio.file.Files.isDirectory
 
 class SemVerPluginTest : AbstractPluginTest() {
 
@@ -16,10 +16,9 @@ class SemVerPluginTest : AbstractPluginTest() {
     @BeforeEach
     @Throws(Exception::class)
     fun setup() {
-        assertTrue(Files.isDirectory(testProjectDir.toPath()))
-
+        assertTrue(isDirectory(testProjectDir.toPath()))
         projectDir = testProjectDir
-        buildFile = Files.createFile(testProjectDir.toPath().resolve("build.gradle")).toFile()
+
         createInitialCommit()
     }
 
@@ -31,6 +30,7 @@ class SemVerPluginTest : AbstractPluginTest() {
         val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
 
         writeFile(buildFile, buildFileContent)
+        createCommit("Add plugin definition.")
 
         // when
         val result = GradleRunner.create()

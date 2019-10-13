@@ -2,6 +2,7 @@ package util
 
 import model.CommitInfo
 import model.Version
+import org.eclipse.jgit.errors.IncorrectObjectTypeException
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevTag
@@ -19,7 +20,13 @@ fun getCurrentVersion(projectDir: File, prefix: String?): Version {
 
     val tags = repository.refDatabase.getRefsByPrefix(Constants.R_TAGS)
             .asSequence()
-            .map { walk.parseTag(it.objectId) }
+            .map {
+                try {
+                    walk.parseTag(it.objectId)
+                } catch (e: IncorrectObjectTypeException) {
+                    // ref is a lightweight (aka unannotated) tag and thus ignored.
+                }
+            }
             .filterIsInstance<RevTag>()
             .map { it.tagName }
             .filter { it.startsWith(prefixString) }
