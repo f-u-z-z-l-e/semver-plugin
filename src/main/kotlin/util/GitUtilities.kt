@@ -30,7 +30,14 @@ fun getCurrentVersion(projectDir: File, prefix: String?): Version {
             .filterIsInstance<RevTag>()
             .map { it.tagName }
             .filter { it.startsWith(prefixString) }
-            .map { Version(it, prefix) }
+            .map {
+                try {
+                    Version(it, prefix)
+                } catch (e: IllegalStateException) {
+                    // ignore tags not matching semver regex.
+                }
+            }
+            .filterIsInstance<Version>()
             .sortedWith(VersionComparator)
             .toList()
 
