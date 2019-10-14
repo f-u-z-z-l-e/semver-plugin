@@ -5,7 +5,7 @@ plugins {
     kotlin("jvm") version "1.3.50"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
-    id("ch.fuzzle.gradle.semver") version "0.0.12-SNAPSHOT"
+    id("ch.fuzzle.gradle.semver") version "0.1.0"
 }
 
 description = "gradle semantic versioning plugin"
