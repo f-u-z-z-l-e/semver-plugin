@@ -5,16 +5,15 @@ plugins {
     kotlin("jvm") version "1.3.50"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
-//    id("ch.fuzzle.gradle.semver") version "0.0.4-SNAPSHOT"
+    id("ch.fuzzle.gradle.semver") version "0.0.12-SNAPSHOT"
 }
 
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
-version = "0.0.7-SNAPSHOT"
 
 dependencies {
     implementation(kotlin("stdlib", "1.3.50"))
-    implementation("org.eclipse.jgit:org.eclipse.jgit:5.5.0.201909110433-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.5.1.201910021850-r")
 
     testImplementation(gradleTestKit())
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
@@ -61,8 +60,9 @@ tasks {
     }
 }
 
-//semver {
+semver {
 //    prefix.value( "test")
 //    preRelease.value("rc1")
 //    releaseBranch.value("master")
-//}
+//    tagMessage.value("Tagged automatically.")
+}

@@ -19,7 +19,7 @@ open class TagHeadCommitTask : DefaultTask() {
         description = "Tags the latest commit with the current project version."
 
         val semVerExtension = project.extensions.getByType(SemVerExtension::class.java)
-        this.tagMessage = getStringOrDefault(semVerExtension.tagMessage.orNull, defaultTagMessage)
+        this.tagMessage = getStringOrDefault(semVerExtension.tagMessage.orNull, defaultTagMessage) + "\n"
     }
 
     @TaskAction

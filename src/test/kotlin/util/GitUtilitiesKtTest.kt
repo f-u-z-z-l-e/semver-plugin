@@ -1,5 +1,9 @@
 package util
 
+import org.eclipse.jgit.api.Git
+import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -59,4 +63,21 @@ internal class GitUtilitiesKtTest {
         assertTrue(currentVersion.toString() == "test0.1.0", "Current version with prefix 'test' could not be acquired.")
     }
 
+
+    @Test
+    fun `Tag the latest commit with the current version`() {
+        // given
+        val projectDir = File("../../../../")
+
+        // when
+        tagHeadCommit(projectDir, "vv1.0.0", "lala")
+
+        // then
+        val repository = getRepository(projectDir)
+        val tags = Git(repository).tagList().call().filter { it.name == "refs/tags/vv1.0.0" }
+        assertThat(tags.size, Matchers.equalTo(1))
+
+        // clean up
+        Git(repository).tagDelete().setTags("vv1.0.0").call()
+    }
 }

@@ -3,9 +3,11 @@ package util
 import model.CommitInfo
 import model.Version
 import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.errors.JGitInternalException
 import org.eclipse.jgit.errors.IncorrectObjectTypeException
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.Repository
+import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.revwalk.RevTag
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
@@ -82,9 +84,19 @@ fun getBranchName(projectDir: File): String? {
 
 fun tagHeadCommit(projectDir: File, version: String, message: String) {
     val repository = getRepository(projectDir)
-    val git = Git(repository)
-    git.tag().setName(version).setMessage(message).setForceUpdate(true).call()
 
+    try {
+
+    Git(repository)
+            .tag()
+            .setName(version)
+            .setMessage(message)
+            .setAnnotated(true)
+            .setForceUpdate(true)
+            .call()
+    } catch (e: JGitInternalException) {
+        // fail silently
+    }
 }
 
 fun pushVersionTagToOrigin(projectDir: File, version: String) {
@@ -94,7 +106,7 @@ fun pushVersionTagToOrigin(projectDir: File, version: String) {
 }
 
 @Throws(IOException::class)
-private fun getRepository(projectDir: File): Repository {
+fun getRepository(projectDir: File): Repository {
     return FileRepositoryBuilder()
             .readEnvironment()
             .findGitDir(File(projectDir.absolutePath + "/.git"))
