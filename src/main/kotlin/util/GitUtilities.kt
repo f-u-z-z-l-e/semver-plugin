@@ -2,12 +2,14 @@ package util
 
 import model.CommitInfo
 import model.Version
+import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.errors.IncorrectObjectTypeException
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevTag
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
+import org.eclipse.jgit.transport.RefSpec
 import java.io.File
 import java.io.IOException
 
@@ -76,6 +78,19 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
 fun getBranchName(projectDir: File): String? {
     val repository = getRepository(projectDir)
     return repository.branch
+}
+
+fun tagHeadCommit(projectDir: File, version: String, message: String) {
+    val repository = getRepository(projectDir)
+    val git = Git(repository)
+    git.tag().setName(version).setMessage(message).call()
+
+}
+
+fun pushVersionTagToOrigin(projectDir: File, version: String) {
+    val repository = getRepository(projectDir)
+    val git = Git(repository)
+    git.push().setRemote("origin").setRefSpecs(RefSpec("refs/tags/$version:refs/tags/$version"))
 }
 
 @Throws(IOException::class)

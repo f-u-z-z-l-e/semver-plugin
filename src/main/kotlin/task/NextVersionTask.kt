@@ -8,6 +8,7 @@ import org.gradle.api.tasks.TaskAction
 import util.getBranchName
 import util.getCurrentVersion
 import util.getHeadCommitInfo
+import util.getStringOrDefault
 
 open class NextVersionTask : DefaultTask() {
 
@@ -68,11 +69,6 @@ open class NextVersionTask : DefaultTask() {
         }
 
         project.extensions.extraProperties.set("gitCommitInfo", headCommitInfo)
-    }
-
-    private fun getStringOrDefault(prefix: String?, default: String): String {
-        return if (prefix != null && prefix.isNotBlank()) prefix
-        else default
     }
 
 }
