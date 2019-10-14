@@ -83,7 +83,7 @@ fun getBranchName(projectDir: File): String? {
 fun tagHeadCommit(projectDir: File, version: String, message: String) {
     val repository = getRepository(projectDir)
     val git = Git(repository)
-    git.tag().setName(version).setMessage(message).call()
+    git.tag().setName(version).setMessage(message).setForceUpdate(true).call()
 
 }
 
