@@ -10,7 +10,7 @@ plugins {
 
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
-version = "0.0.6-SNAPSHOT"
+version = "0.0.7-SNAPSHOT"
 
 dependencies {
     implementation(kotlin("stdlib", "1.3.50"))
@@ -20,6 +20,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.5.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.1")
 }
 
 repositories {

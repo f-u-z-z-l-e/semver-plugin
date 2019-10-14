@@ -10,7 +10,7 @@ import util.tagHeadCommit
 open class TagHeadCommitTask : DefaultTask() {
 
     @Input
-    val tagMessage: String?
+    val tagMessage: String
 
     private val defaultTagMessage: String = "Tagged by 'ch.fuzzle.gradle.semver' gradle plugin."
 
@@ -19,16 +19,12 @@ open class TagHeadCommitTask : DefaultTask() {
         description = "Tags the latest commit with the current project version."
 
         val semVerExtension = project.extensions.getByType(SemVerExtension::class.java)
-        this.tagMessage = semVerExtension.tagMessage.orNull
+        this.tagMessage = getStringOrDefault(semVerExtension.tagMessage.orNull, defaultTagMessage)
     }
 
     @TaskAction
     fun tagHeadCommit() {
-        tagHeadCommit(
-                project.projectDir,
-                project.version.toString(),
-                getStringOrDefault(tagMessage, defaultTagMessage)
-        )
+        tagHeadCommit(project.projectDir, project.version.toString(), tagMessage)
     }
 
 }
