@@ -11,16 +11,14 @@ import java.nio.file.Files.isDirectory
 
 class SemVerPluginTest : AbstractPluginTest() {
 
-    @TempDir
-    lateinit var testProjectDir: File
-
     @BeforeEach
     @Throws(Exception::class)
     fun setup() {
-        assertTrue(isDirectory(testProjectDir.toPath()))
-        projectDir = testProjectDir
+        assertTrue(isDirectory(projectDir.toPath()))
+        assertTrue(isDirectory(remoteDir.toPath()))
 
         createInitialCommit()
+        createRemote()
     }
 
     @Test
@@ -80,12 +78,13 @@ class SemVerPluginTest : AbstractPluginTest() {
 
         writeFile(buildFile, buildFileContent)
         createCommit("Add plugin definition.")
+        pushCommit()
 
         // when
         val result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
-                .withArguments("tagHeadCommit", "pushTagToOrigin")
+                .withArguments("tagHeadCommit", "pushTagToOrigin", "--stacktrace")
                 .forwardOutput()
                 .build()
 

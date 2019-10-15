@@ -13,6 +13,6 @@ open class PushTagToOriginTask : DefaultTask() {
 
     @TaskAction
     fun pushTagToOrigin() {
-        pushVersionTagToOrigin(project.projectDir, project.version.toString())
+        pushVersionTagToOrigin(project.projectDir)
     }
 }
