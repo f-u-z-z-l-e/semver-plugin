@@ -102,7 +102,7 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
 fun pushVersionTagToOrigin(projectDir: File, version: String) {
     val repository = getRepository(projectDir)
     val git = Git(repository)
-    git.push().setRemote("origin").setRefSpecs(RefSpec("refs/tags/$version:refs/tags/$version"))
+    git.push().setRemote("origin").setRefSpecs(RefSpec("refs/tags/$version:refs/tags/$version")).call()
 }
 
 @Throws(IOException::class)
