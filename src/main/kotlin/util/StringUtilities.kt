@@ -1,6 +1,6 @@
 package util
 
-fun getStringOrDefault(string: String?, default: String): String {
-    return if (string != null && string.isNotBlank()) string
+fun getStringOrDefault(string: Any?, default: String): String {
+    return if (string is String && string.isNotBlank()) string
     else default
 }

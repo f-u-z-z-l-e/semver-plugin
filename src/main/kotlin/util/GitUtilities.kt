@@ -7,12 +7,11 @@ import org.eclipse.jgit.api.errors.JGitInternalException
 import org.eclipse.jgit.errors.IncorrectObjectTypeException
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.Repository
-import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.revwalk.RevTag
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import org.eclipse.jgit.transport.CredentialsProvider
-import org.eclipse.jgit.transport.RefSpec
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 import java.io.IOException
 
@@ -87,23 +86,27 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
     val repository = getRepository(projectDir)
 
     try {
-
-    Git(repository)
-            .tag()
-            .setName(version)
-            .setMessage(message)
-            .setAnnotated(true)
-            .setForceUpdate(true)
-            .call()
+        Git(repository)
+                .tag()
+                .setName(version)
+                .setMessage(message)
+                .setAnnotated(true)
+                .setForceUpdate(true)
+                .call()
     } catch (e: JGitInternalException) {
         // fail silently
     }
 }
 
-fun pushVersionTagToOrigin(projectDir: File) {
-    val repository = getRepository(projectDir)
-    val git = Git(repository)
-    git.push().setPushTags().call()
+fun pushVersionTagToOrigin(projectDir: File, token: String?) {
+    val pushCommand = Git(getRepository(projectDir)).push()
+
+    if (!token.isNullOrBlank()) {
+        val credentials = UsernamePasswordCredentialsProvider(token, "")
+        pushCommand.setCredentialsProvider(credentials)
+    }
+
+    pushCommand.setPushTags().call()
 }
 
 @Throws(IOException::class)
