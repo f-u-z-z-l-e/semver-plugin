@@ -14,7 +14,7 @@ jobs:
       run: git checkout "${GITHUB_REF:11}"
 
     - name: Configure git remote
-      run: git remote set-url origin https://$TOKEN@github.com/f-u-z-z-l-e/semver-plugin
+      run: git remote set-url origin https://github.com/f-u-z-z-l-e/semver-plugin
 
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
@@ -22,4 +22,4 @@ jobs:
         java-version: 1.8
 
     - name: Build with Gradle
-      run: ./gradlew build publishPlugin tagHeadCommit pushTagToOrigin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }} -PoauthToken=${{ secrets.ci_token }}
+      run: ./gradlew build publishPlugin tagHeadCommit pushTagToOrigin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }} -PoauthToken=${{ secrets. ci_token }}
