@@ -16,6 +16,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-      env:
-        gradle_cpp: ${{ secrets.GRADLE_CPP }}
-      run: ./gradlew build publishPlugin tagHeadCommit pushTagToOrigin -PcredentialsPassphrase=${gradle_cpp} -PcredentialsLocation=.secrets
+      run: ./gradlew build publishPlugin tagHeadCommit pushTagToOrigin -PcredentialsPassphrase=${{ secrets.GRADLE_CPP }} -PcredentialsLocation=.secrets
