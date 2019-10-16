@@ -5,8 +5,7 @@ plugins {
     kotlin("jvm") version "1.3.50"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
-    id("nu.studer.credentials") version "1.0.7"
-    id("ch.fuzzle.gradle.semver") version "0.1.1"
+    id("ch.fuzzle.gradle.semver") version "0.1.3-ci+312c73cd"
 }
 
 description = "gradle semantic versioning plugin"
@@ -62,7 +61,7 @@ tasks {
 }
 
 semver {
-//    prefix.value( "test")
+    //    prefix.value( "test")
 //    preRelease.value("rc1")
 //    releaseBranch.value("master")
 //    tagMessage.value("Tagged automatically.")
