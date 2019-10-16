@@ -9,13 +9,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        ref: ${{ github.ref }}
+    - name: Checkout to branch
+      run: git checkout "${GITHUB_REF:11}"
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Build with Gradle
-      env: # Or as an environment variable
+      env:
         gradle_cpp: ${{ secrets.GRADLE_CPP }}
       run: ./gradlew build publishPlugin tagHeadCommit pushTagToOrigin -PcredentialsPassphrase=${gradle_cpp} -PcredentialsLocation=.secrets
