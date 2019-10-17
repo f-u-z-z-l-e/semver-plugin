@@ -26,10 +26,7 @@ jobs:
 
     - name: Upload coverage to Codecov
       if: success()
-      run: bash <(curl -s https://codecov.io/bash) -t $TOKEN -B $REF
-      env:
-        TOKEN: "${{ secrets.codeconv_token }}"
-        REF: "${{ github.ref }}"
+      run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.codeconv_token }}
 
     - name: Publish plugin to plugins.gradle.org
       run: ./gradlew publishPlugin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }}
