@@ -22,4 +22,18 @@ jobs:
         java-version: 1.8
 
     - name: Build with Gradle
-      run: ./gradlew build publishPlugin tagHeadCommit pushTagToOrigin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }}
+      run: ./gradlew build
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1.0.2
+      with:
+        token: ${{ secrets.codeconv_token }}
+        file: ./build/reports/jacoco/test/jacocoTestReport.xml
+        flags: unittests
+        name: codecov-umbrella #optional
+
+    - name: Publish plugin to plugins.gradle.org
+      run: ./gradlew publishPlugin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }}
+
+    - name: Tag commit & push to origin
+      run: ./gradlew tagHeadCommit pushTagToOrigin

@@ -6,6 +6,7 @@ plugins {
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
     id("ch.fuzzle.gradle.semver") version "0.1.10"
+    jacoco
 }
 
 description = "gradle semantic versioning plugin"
@@ -59,6 +60,14 @@ tasks {
         useJUnitPlatform()
     }
 }
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = false
+    }
+}
+
 
 semver {
     //    prefix.value( "test")
