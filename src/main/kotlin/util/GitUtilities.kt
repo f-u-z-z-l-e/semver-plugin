@@ -10,7 +10,6 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevTag
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 import java.io.IOException
 
@@ -42,6 +41,7 @@ fun getCurrentVersion(projectDir: File, prefix: String?): Version {
             }
             .filterIsInstance<Version>()
             .sortedWith(VersionComparator)
+            .filter { it.preRelease.isNullOrBlank() && it.buildMetadata.isNullOrBlank() }
             .toList()
 
     walk.dispose()

@@ -1,7 +1,6 @@
 package util
 
 import org.eclipse.jgit.api.Git
-import org.hamcrest.MatcherAssert
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -70,14 +69,38 @@ internal class GitUtilitiesKtTest {
         val projectDir = File("../../../../")
 
         // when
-        tagHeadCommit(projectDir, "vv1.0.0", "lala")
+        tagHeadCommit(projectDir, "vv1.0.0", "Some commit message.")
 
         // then
-        val repository = getRepository(projectDir)
-        val tags = Git(repository).tagList().call().filter { it.name == "refs/tags/vv1.0.0" }
-        assertThat(tags.size, Matchers.equalTo(1))
+        assertTag("vv1.0.0")
 
         // clean up
-        Git(repository).tagDelete().setTags("vv1.0.0").call()
+        Git(getRepository(projectDir)).tagDelete().setTags("vv1.0.0").call()
     }
+
+    @Test
+    fun `Versions with PreRelease or BuildMetadata set should not increase version numbers `() {
+        // given
+        val projectDir = File("../../../../")
+
+        // when
+        tagHeadCommit(projectDir, "version1.0.0", "Some commit message.")
+        assertTag("version1.0.0")
+        assertTrue(getCurrentVersion(projectDir, "version").toString() == "version1.0.0")
+
+        tagHeadCommit(projectDir, "version1.0.1-RC1", "Some commit message.")
+        assertTag("version1.0.1-RC1")
+        assertTrue(getCurrentVersion(projectDir, "version").toString() == "version1.0.0")
+
+        // clean up
+        Git(getRepository(projectDir)).tagDelete().setTags("version1.0.0", "version1.0.1-RC1").call()
+    }
+
+    private fun assertTag(tagName: String) {
+        val projectDir = File("../../../../")
+        val repository = getRepository(projectDir)
+        val tags = Git(repository).tagList().call().filter { it.name == "refs/tags/$tagName" }
+        assertThat(tags.size, Matchers.equalTo(1))
+    }
+
 }
