@@ -10,7 +10,6 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevTag
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
-import org.eclipse.jgit.transport.CredentialsProvider
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 import java.io.IOException
@@ -96,17 +95,6 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
     } catch (e: JGitInternalException) {
         // fail silently
     }
-}
-
-fun pushVersionTagToOrigin(projectDir: File, token: String?) {
-    val pushCommand = Git(getRepository(projectDir)).push()
-
-    if (!token.isNullOrBlank()) {
-        val credentials = UsernamePasswordCredentialsProvider(token, "")
-        pushCommand.setCredentialsProvider(credentials)
-    }
-
-    pushCommand.setPushTags().call()
 }
 
 @Throws(IOException::class)

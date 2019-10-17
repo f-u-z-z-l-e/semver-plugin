@@ -84,7 +84,7 @@ class SemVerPluginTest : AbstractPluginTest() {
         val result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
-                .withArguments("tagHeadCommit", "pushTagToOrigin", "--stacktrace")
+                .withArguments("tagHeadCommit", "pushTagToOrigin")
                 .forwardOutput()
                 .build()
 
