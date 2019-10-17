@@ -30,7 +30,7 @@ jobs:
         token: ${{ secrets.codeconv_token }}
         file: ./build/reports/jacoco/test/jacocoTestReport.xml
         flags: unittests
-        name: codecov-umbrella #optional
+        name: codecov-umbrella
 
     - name: Publish plugin to plugins.gradle.org
       run: ./gradlew publishPlugin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }}
