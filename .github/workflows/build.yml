@@ -18,6 +18,7 @@ jobs:
     - name: Switch from detached state to branch
       run: git checkout "${GITHUB_REF:11}"
 
+    # using a user token, as ${{ secrets.GITHUB_TOKEN }} would not trigger a subsequent build.
     - name: Configure git remote
       run: git remote set-url origin https://${{ github.actor }}:${{ secrets.ci_token }}@github.com/f-u-z-z-l-e/semver-plugin.git
 
