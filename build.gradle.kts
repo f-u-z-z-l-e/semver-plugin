@@ -70,7 +70,7 @@ tasks.jacocoTestReport {
 
 
 semver {
-    //    prefix.value( "test")
+//    prefix.value( "test")
 //    preRelease.value("rc1")
 //    releaseBranch.value("master")
 //    tagMessage.value("Tagged automatically.")
