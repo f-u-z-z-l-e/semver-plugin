@@ -1,9 +1,6 @@
 name: build
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   build:
@@ -32,6 +29,7 @@ jobs:
       run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.codeconv_token }}
 
     - name: Publish plugin to plugins.gradle.org
+      if: github.ref == 'refs/heads/master'
       run: ./gradlew publishPlugin -Pgradle.publish.key=${{ secrets.gradle_pub_key }} -Pgradle.publish.secret=${{ secrets.gradle_pub_secret }}
 
     - name: Tag commit & push to origin
