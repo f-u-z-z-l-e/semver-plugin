@@ -74,13 +74,16 @@ Pre-release by default will be set to the current branch, and build metadata is 
 can be overridden via the semver gradle extension.
 
 ### Setting a release branch
-Some teams might wish to specify a dedicated ***release*** branch. By default the plugin will treat the master branch as
-release branch. On the release branch the plugin will omit the pre-release and build metadata parts.
+Some teams might wish to specify a dedicated ***release*** branch. By default the plugin will treat the **master**
+branch as release branch. On the release branch the plugin will omit the pre-release and build metadata parts.
+
+### Setting a tag message
+The plugin will create an [annotated git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) and set a default commit
+message. To override the default message one can specify an alternate **tagMessage** via the semver gradle extension. 
 
 ## Configuration
 
 ### Groovy
-
 ```groovy
 semver {
     prefix = 'v' // sets the version prefix. -> v0.0.1
