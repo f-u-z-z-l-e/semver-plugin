@@ -32,7 +32,7 @@ gradlePlugin {
         create("semVerPlugin") {
             id = "ch.fuzzle.gradle.semver"
             displayName = "gradle semantic versioning plugin"
-            description = "This plugin add tasks to facilitate semantic versioning of gradle projects."
+            description = "This plugin adds tasks to facilitate semantic versioning of gradle projects."
             implementationClass = "SemVerPlugin"
         }
     }
