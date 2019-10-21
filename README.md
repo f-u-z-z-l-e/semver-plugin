@@ -79,7 +79,7 @@ release branch. On the release branch the plugin will omit the pre-release and b
 
 ## Configuration
 
-in build.gradle
+### Groovy
 
 ```groovy
 semver {
@@ -90,6 +90,7 @@ semver {
 }
 ```
 
+### Kotlin
 ```kotlin
 semver {
     prefix.value( "v") // sets the version prefix. -> v0.0.1
