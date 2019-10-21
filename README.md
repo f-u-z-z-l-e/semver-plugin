@@ -82,6 +82,7 @@ The plugin will create an [annotated git tag](https://git-scm.com/book/en/v2/Git
 message. To override the default message one can specify an alternate **tagMessage** via the semver gradle extension. 
 
 ## Configuration
+Refer to [plugins.gradle.org](https://plugins.gradle.org/plugin/ch.fuzzle.gradle.semver) on how to apply the plugin.
 
 ### Groovy
 ```groovy
