@@ -19,7 +19,7 @@ class SemVerPlugin : Plugin<Project> {
 
                 // this task needs git to be configured outside of gradle.
                 tasks.register<Exec>("pushTagToOrigin") {
-                    group = "Versioning tasks"
+                    group = "Versioning"
                     description = "Pushes the tags to origin."
                     commandLine = listOf("git", "push", "origin", "--tags")
                 }
