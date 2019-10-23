@@ -1,5 +1,3 @@
-import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
-
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version "1.3.50"
