@@ -45,12 +45,6 @@ pluginBundle {
     tags = listOf("gradle", "build", "semver", "versioning", "git", "kotlin")
 }
 
-tasks.wrapper {
-    gradleVersion = "5.6.2"
-    distributionType = DistributionType.ALL
-    distributionSha256Sum = "027fdd265d277bae65a0d349b6b8da02135b0b8e14ba891e26281fa877fe37a2"
-}
-
 kotlinDslPluginOptions {
     experimentalWarning.set(false)
 }
