@@ -7,6 +7,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.10.1"
     id("ch.fuzzle.gradle.semver") version "0.2.11"
     jacoco
+    id("pl.droidsonroids.jacoco.testkit") version "1.0.5"
 }
 
 description = "gradle semantic versioning plugin"
@@ -67,7 +68,6 @@ tasks.jacocoTestReport {
         html.isEnabled = false
     }
 }
-
 
 semver {
 //    prefix.value( "test")

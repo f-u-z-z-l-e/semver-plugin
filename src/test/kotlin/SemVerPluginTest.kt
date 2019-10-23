@@ -5,8 +5,6 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
-import java.io.File
 import java.nio.file.Files.isDirectory
 
 class SemVerPluginTest : AbstractPluginTest() {
@@ -37,6 +35,7 @@ class SemVerPluginTest : AbstractPluginTest() {
                 .withPluginClasspath()
                 .withArguments("properties")
                 .forwardOutput()
+                .withJaCoCo()
                 .build()
 
         // then
@@ -60,6 +59,7 @@ class SemVerPluginTest : AbstractPluginTest() {
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit")
                 .forwardOutput()
+                .withJaCoCo()
                 .build()
 
         // then
@@ -86,6 +86,7 @@ class SemVerPluginTest : AbstractPluginTest() {
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit", "pushTagToOrigin")
                 .forwardOutput()
+                .withJaCoCo()
                 .build()
 
         // then
@@ -94,6 +95,30 @@ class SemVerPluginTest : AbstractPluginTest() {
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/0.0.1" }
         assertThat(tags.size, equalTo(1))
+    }
+
+    @Test
+    fun shouldDisplayVersionToCmd() {
+        // given
+        val eol = System.getProperty("line.separator")
+        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+
+        writeFile(buildFile, buildFileContent)
+        createCommit("Add plugin definition.")
+
+        // when
+        val result = GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("displayVersion")
+                .forwardOutput()
+                .withJaCoCo()
+                .build()
+
+        // then
+        assertThat(result.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(result.output, containsString("1 actionable task: 1 executed"))
+        assertThat(result.output, containsString("0.0.1"))
     }
 
 }

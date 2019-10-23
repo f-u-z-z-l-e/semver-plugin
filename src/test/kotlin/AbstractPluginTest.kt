@@ -2,12 +2,10 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.GitAPIException
 import org.eclipse.jgit.transport.RemoteConfig
 import org.eclipse.jgit.transport.URIish
+import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
+import java.io.*
 import java.nio.file.Files
 
 abstract class AbstractPluginTest {
@@ -70,4 +68,14 @@ abstract class AbstractPluginTest {
         BufferedWriter(FileWriter(destination)).use { it.write(content) }
     }
 
+    fun InputStream.toFile(file: File) {
+        use { input ->
+            file.outputStream().use { input.copyTo(it) }
+        }
+    }
+
+    fun GradleRunner.withJaCoCo(): GradleRunner {
+        javaClass.classLoader.getResourceAsStream("testkit-gradle.properties").toFile(File(projectDir, "gradle.properties"))
+        return this
+    }
 }
