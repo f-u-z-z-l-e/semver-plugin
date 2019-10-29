@@ -98,7 +98,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     }
 
     @Test
-    fun shouldDisplayVersionToCmd() {
+    fun `Display version to cmd`() {
         // given
         val eol = System.getProperty("line.separator")
         val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
@@ -134,13 +134,15 @@ class SemVerPluginTest : AbstractPluginTest() {
         val result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
-                .withArguments("tagHeadCommit", "pushTagToOrigin")
+                .withArguments("tagHeadCommit", "pushTagToOrigin", "displayVersion")
                 .forwardOutput()
+                .withJaCoCo()
                 .build()
 
         // then
         assertThat(result.output, containsString("BUILD SUCCESSFUL"))
-        assertThat(result.output, containsString("2 actionable tasks: 2 executed"))
+        assertThat(result.output, containsString("3 actionable tasks: 3 executed"))
+        assertThat(result.output, containsString("0.1.0"))
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/0.1.0" }
         assertThat(tags.size, equalTo(1))
@@ -159,13 +161,15 @@ class SemVerPluginTest : AbstractPluginTest() {
         val result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
-                .withArguments("tagHeadCommit", "pushTagToOrigin")
+                .withArguments("tagHeadCommit", "pushTagToOrigin", "displayVersion")
                 .forwardOutput()
+                .withJaCoCo()
                 .build()
 
         // then
         assertThat(result.output, containsString("BUILD SUCCESSFUL"))
-        assertThat(result.output, containsString("2 actionable tasks: 2 executed"))
+        assertThat(result.output, containsString("3 actionable tasks: 3 executed"))
+        assertThat(result.output, containsString("1.0.0"))
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/1.0.0" }
         assertThat(tags.size, equalTo(1))

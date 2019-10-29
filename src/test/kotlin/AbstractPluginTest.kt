@@ -21,7 +21,7 @@ abstract class AbstractPluginTest {
 
     @BeforeEach
     @Throws(Exception::class)
-    fun setup1() {
+    fun setupProjectDirectories() {
         projectDir = Files.createDirectory(testDir.toPath().resolve("local")).toFile()
         remoteDir = Files.createDirectory(testDir.toPath().resolve("remote")).toFile()
     }

@@ -3,7 +3,7 @@ plugins {
     kotlin("jvm") version "1.3.50"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
-    id("ch.fuzzle.gradle.semver") version "0.2.15"
+    id("ch.fuzzle.gradle.semver") version "0.2.18"
     jacoco
     id("pl.droidsonroids.jacoco.testkit") version "1.0.5"
 }
