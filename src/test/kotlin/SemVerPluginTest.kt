@@ -199,4 +199,41 @@ class SemVerPluginTest : AbstractPluginTest() {
         assertThat(result.output, containsString("1 actionable task: 1 executed"))
         assertThat(result.output, containsString("0.0.1-preReleaseTest+"))
     }
+
+    @Test
+    fun `Configure behavior through semver extension`() {
+        // given
+        val buildFileContent = """
+            plugins { id 'ch.fuzzle.gradle.semver' }
+            semver {
+                prefix.value( "v")
+                preRelease.value("rc1")
+                releaseBranch.value("someOtherBranch") // on master pre-release is omitted.
+                tagMessage.value("Tagged automatically.")
+            }
+            """
+
+        writeFile(buildFile, buildFileContent)
+        createCommit("Configure semver extension.")
+
+        // when
+        val result = GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("tagHeadCommit", "displayVersion")
+                .forwardOutput()
+                .withJaCoCo()
+                .build()
+
+        // then
+        val tags = git.tagList().call()
+        assertThat(tags.size, equalTo(1))
+        val tagName = tags[0].name.removePrefix("refs/tags/")
+
+        assertThat(result.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(result.output, containsString("2 actionable tasks: 2 executed"))
+        assertThat(result.output, containsString(tagName))
+        assertThat(result.output, containsString("v0.0.1-rc1+"))
+
+    }
 }
