@@ -4,7 +4,7 @@ import model.Version
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class VersionComparatorTest {
+internal class VersionComparatorTest {
 
     @Test
     fun `Compare major version`() {

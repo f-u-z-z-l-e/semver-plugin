@@ -62,7 +62,6 @@ internal class GitUtilitiesKtTest {
         assertTrue(currentVersion.toString() == "test0.1.0", "Current version with prefix 'test' could not be acquired.")
     }
 
-
     @Test
     fun `Tag the latest commit with the current version`() {
         // given

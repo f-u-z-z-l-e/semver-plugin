@@ -21,7 +21,7 @@ class SemVerPluginTest : AbstractPluginTest() {
 
     @Test
     @Throws(Exception::class)
-    fun shouldApplyVersionToProject() {
+    fun `Apply version to project`() {
         // given
         val eol = System.getProperty("line.separator")
         val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
@@ -45,7 +45,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     }
 
     @Test
-    fun shouldTagRepositoryWithLatestVersion() {
+    fun `Tag repository with latest version`() {
         // given
         val eol = System.getProperty("line.separator")
         val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
@@ -71,7 +71,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     }
 
     @Test
-    fun shouldPushTagToRemoteRepository() {
+    fun `Push tag to remote repository`() {
         // given
         val eol = System.getProperty("line.separator")
         val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
@@ -121,4 +121,53 @@ class SemVerPluginTest : AbstractPluginTest() {
         assertThat(result.output, containsString("0.0.1"))
     }
 
+    @Test
+    fun `Increase minor version with commit message`() {
+        // given
+        val eol = System.getProperty("line.separator")
+        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+
+        writeFile(buildFile, buildFileContent)
+        createCommit("Increase #minor version.")
+
+        // when
+        val result = GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("tagHeadCommit", "pushTagToOrigin")
+                .forwardOutput()
+                .build()
+
+        // then
+        assertThat(result.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(result.output, containsString("2 actionable tasks: 2 executed"))
+
+        val tags = git.tagList().call().filter { it.name == "refs/tags/0.1.0" }
+        assertThat(tags.size, equalTo(1))
+    }
+
+    @Test
+    fun `Increase major version with commit message`() {
+        // given
+        val eol = System.getProperty("line.separator")
+        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+
+        writeFile(buildFile, buildFileContent)
+        createCommit("Increase #major version.")
+
+        // when
+        val result = GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("tagHeadCommit", "pushTagToOrigin")
+                .forwardOutput()
+                .build()
+
+        // then
+        assertThat(result.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(result.output, containsString("2 actionable tasks: 2 executed"))
+
+        val tags = git.tagList().call().filter { it.name == "refs/tags/1.0.0" }
+        assertThat(tags.size, equalTo(1))
+    }
 }

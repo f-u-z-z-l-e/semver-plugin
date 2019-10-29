@@ -76,7 +76,7 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
 }
 
 @Throws(IOException::class)
-fun getBranchName(projectDir: File): String? {
+fun getBranchName(projectDir: File): String {
     val repository = getRepository(projectDir)
     return repository.branch
 }

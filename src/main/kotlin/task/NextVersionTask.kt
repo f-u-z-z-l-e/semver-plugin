@@ -5,10 +5,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-import util.getBranchName
-import util.getCurrentVersion
-import util.getHeadCommitInfo
-import util.getStringOrDefault
+import util.*
 
 open class NextVersionTask : DefaultTask() {
 
@@ -60,7 +57,7 @@ open class NextVersionTask : DefaultTask() {
             version.buildMetadata = null
         } else {
             /** set preRelease value from extension if present, otherwise set branch name */
-            version.preRelease = if (preReleaseString.isNotBlank()) preReleaseString else getBranchName(project.projectDir)
+            version.preRelease = if (preReleaseString.isNotBlank()) preReleaseString else getBranchName(project.projectDir).toPreReleaseString()
             version.buildMetadata = headCommitSha
         }
 
