@@ -63,6 +63,10 @@ abstract class AbstractPluginTest {
         git.push().call()
     }
 
+    fun createBranch(branchName: String) {
+        git.checkout().setCreateBranch(true).setName(branchName).call()
+    }
+
     @Throws(IOException::class)
     fun writeFile(destination: File, content: String) {
         BufferedWriter(FileWriter(destination)).use { it.write(content) }

@@ -174,4 +174,29 @@ class SemVerPluginTest : AbstractPluginTest() {
         val tags = git.tagList().call().filter { it.name == "refs/tags/1.0.0" }
         assertThat(tags.size, equalTo(1))
     }
+
+    @Test
+    fun `Display pre-release and build metadata on branch`() {
+        // given
+        val eol = System.getProperty("line.separator")
+        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+
+        writeFile(buildFile, buildFileContent)
+        createCommit("Add plugin definition.")
+        createBranch("pre-release-test")
+
+        // when
+        val result = GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("displayVersion")
+                .forwardOutput()
+                .withJaCoCo()
+                .build()
+
+        // then
+        assertThat(result.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(result.output, containsString("1 actionable task: 1 executed"))
+        assertThat(result.output, containsString("0.0.1-preReleaseTest+"))
+    }
 }
