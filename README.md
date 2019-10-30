@@ -76,6 +76,13 @@ major.minor.patch-preRelease+buidMetadata  -->  0.2.1-cov+241dd421
 Pre-release by default will be set to the current branch, and build metadata is the shortened commit sha. The pre-release
 can be overridden via the semver gradle extension.
 
+#### Pre-release format transformation
+In order for the branch name to conform to the pre-release syntax the branch name will be transformed as follows:
+```
+branch name: abc-123 -> pre-release: abc_123
+branch name: some-snake-case-name -> pre-release: someSnakeCaseName
+```
+
 ### Setting a release branch
 Some teams might wish to specify a dedicated ***release*** branch. By default the plugin will treat the **master**
 branch as release branch. On the release branch the plugin will omit the pre-release and build metadata parts.
