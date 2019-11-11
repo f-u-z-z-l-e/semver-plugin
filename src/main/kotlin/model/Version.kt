@@ -2,7 +2,7 @@ package model
 
 import util.matchSemanticVersion
 
-data class Version(val version: String, val prefix: String?) {
+data class Version(val version: String, val prefix: String?, val buildMetadataSeparator: String?) {
     private val matcher = matchSemanticVersion(version, prefix)
     var major: Int
     var minor: Int
@@ -21,10 +21,11 @@ data class Version(val version: String, val prefix: String?) {
 
     override fun toString(): String {
         val prefixString = if (prefix.isNullOrBlank()) "" else prefix
+        val buildMetadataSeparator = buildMetadataSeparator ?: "+"
         var result = "$prefixString$major.$minor.$patch"
 
         if (!preRelease.isNullOrBlank()) result = with(result) { plus("-$preRelease") }
-        if (!buildMetadata.isNullOrBlank()) result = with(result) { plus("+$buildMetadata") }
+        if (!buildMetadata.isNullOrBlank()) result = with(result) { plus("$buildMetadataSeparator$buildMetadata") }
 
         return result
     }

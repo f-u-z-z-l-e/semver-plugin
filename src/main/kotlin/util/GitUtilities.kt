@@ -14,7 +14,7 @@ import java.io.File
 import java.io.IOException
 
 @Throws(IOException::class)
-fun getCurrentVersion(projectDir: File, prefix: String?): Version {
+fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator: String?): Version {
     val prefixString = if (prefix.isNullOrBlank()) "" else prefix
 
     val repository = getRepository(projectDir)
@@ -34,7 +34,7 @@ fun getCurrentVersion(projectDir: File, prefix: String?): Version {
             .filter { it.startsWith(prefixString) }
             .map {
                 try {
-                    Version(it, prefix)
+                    Version(it, prefix, buildMetadataSeparator)
                 } catch (e: IllegalStateException) {
                     // ignore tags not matching semver regex.
                 }
@@ -46,7 +46,7 @@ fun getCurrentVersion(projectDir: File, prefix: String?): Version {
 
     walk.dispose()
 
-    if (tags.isEmpty()) return Version(prefixString + "0.0.0", prefix)
+    if (tags.isEmpty()) return Version(prefixString + "0.0.0", prefix, buildMetadataSeparator)
 
     return tags.last()
 }

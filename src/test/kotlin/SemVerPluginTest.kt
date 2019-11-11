@@ -210,6 +210,7 @@ class SemVerPluginTest : AbstractPluginTest() {
                 preRelease.value("rc1")
                 releaseBranch.value("someOtherBranch") // on master pre-release is omitted.
                 tagMessage.value("Tagged automatically.")
+                buildMetadataSeparator.value("-")
             }
             """
 
@@ -233,7 +234,6 @@ class SemVerPluginTest : AbstractPluginTest() {
         assertThat(result.output, containsString("BUILD SUCCESSFUL"))
         assertThat(result.output, containsString("2 actionable tasks: 2 executed"))
         assertThat(result.output, containsString(tagName))
-        assertThat(result.output, containsString("v0.0.1-rc1+"))
-
+        assertThat(result.output, containsString("v0.0.1-rc1-"))
     }
 }

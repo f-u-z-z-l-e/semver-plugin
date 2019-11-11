@@ -18,6 +18,10 @@ open class NextVersionTask : DefaultTask() {
     @Input
     val releaseBranch: String?
 
+    @Input
+    val buildMetadataSeparator: String?
+
+
     init {
         group = "Versioning"
         description = "Resolves the next version based on the git tags of this repository."
@@ -26,6 +30,7 @@ open class NextVersionTask : DefaultTask() {
         this.prefix = semVerExtension.prefix.orNull
         this.preRelease = semVerExtension.preRelease.orNull
         this.releaseBranch = semVerExtension.releaseBranch.orNull
+        this.buildMetadataSeparator = semVerExtension.buildMetadataSeparator.orNull
     }
 
     @TaskAction
@@ -37,7 +42,7 @@ open class NextVersionTask : DefaultTask() {
         /** either a string containing the preRelease or an empty string */
         val preReleaseString = getStringOrDefault(preRelease, "")
         /** the latest version the git repository knows about */
-        val version = getCurrentVersion(project.projectDir, prefixString)
+        val version = getCurrentVersion(project.projectDir, prefixString, buildMetadataSeparator)
         /** information about HEAD */
         val headCommitInfo = getHeadCommitInfo(project.projectDir)
         /** commit message from HEAD */

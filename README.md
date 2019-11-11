@@ -91,6 +91,12 @@ branch as release branch. On the release branch the plugin will omit the pre-rel
 The plugin will create an [annotated git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) and set a default commit
 message. To override the default message one can specify an alternate **tagMessage** via the semver gradle extension. 
 
+### Setting the buildMetadataSeparator
+Sometimes it is necessary to tweak the output of the version string as not all projects follow the semver specification
+strictly. For example if you would like to tag a docker image with the default settings applied by this plugin, the
+docker build command will fail as it doesn't allow the character '+' in the tag name. To circumvent this problem the
+buildMetadataSeparator property allows for overriding the separator with a custom value. 
+
 ## Configuration
 Refer to [plugins.gradle.org](https://plugins.gradle.org/plugin/ch.fuzzle.gradle.semver) on how to apply the plugin.
 
@@ -101,6 +107,7 @@ semver {
     preRelease = 'rc1' // sets the pre-release string (default == git branch name)
     releaseBranch = 'master' // sets the git branch name that is considered to be the 'release' branch.
     tagMessage = 'Tagged automatically.' // sets the message the tagHeadCommit task should use (default = 'Tagged by 'ch.fuzzle.gradle.semver' gradle plugin.')
+    buildMetadateSeparator = '-' // defines the separator character before buildMetadata. (default = '+')
 }
 ```
 
@@ -111,5 +118,6 @@ semver {
     preRelease.value("rc1") // sets the pre-release string (default == git branch name)
     releaseBranch.value("master") // sets the git branch name that is considered to be the 'release' branch.
     tagMessage.value("Tagged automatically.") // sets the message the tagHeadCommit task should use (default = 'Tagged by 'ch.fuzzle.gradle.semver' gradle plugin.')
+    buildMetadateSeparator.value("-") // defines the separator character before buildMetadata. (default = '+')
 }
 ```

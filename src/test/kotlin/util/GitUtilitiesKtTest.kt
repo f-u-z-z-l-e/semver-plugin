@@ -18,7 +18,7 @@ internal class GitUtilitiesKtTest {
         val branchName = getBranchName(projectDir)
 
         // then
-        assertTrue(!branchName.isNullOrEmpty(), "Branch name could not be acquired.")
+        assertTrue(branchName.isNotEmpty(), "Branch name could not be acquired.")
     }
 
     @Test
@@ -43,7 +43,7 @@ internal class GitUtilitiesKtTest {
         val projectDir = File("../../../../")
 
         // when
-        val currentVersion = getCurrentVersion(projectDir, "nonexistent_prefix")
+        val currentVersion = getCurrentVersion(projectDir, "nonexistent_prefix", null)
 
         // then
         assertTrue(currentVersion.toString() == "nonexistent_prefix0.0.0", "Default version could not be acquired.")
@@ -56,7 +56,7 @@ internal class GitUtilitiesKtTest {
         val projectDir = File("../../../../")
 
         // when
-        val currentVersion = getCurrentVersion(projectDir, "test")
+        val currentVersion = getCurrentVersion(projectDir, "test", null)
 
         // then
         assertTrue(currentVersion.toString() == "test0.1.0", "Current version with prefix 'test' could not be acquired.")
@@ -85,11 +85,11 @@ internal class GitUtilitiesKtTest {
         // when
         tagHeadCommit(projectDir, "version1.0.0", "Some commit message.")
         assertTag("version1.0.0")
-        assertTrue(getCurrentVersion(projectDir, "version").toString() == "version1.0.0")
+        assertTrue(getCurrentVersion(projectDir, "version", null).toString() == "version1.0.0")
 
         tagHeadCommit(projectDir, "version1.0.1-RC1", "Some commit message.")
         assertTag("version1.0.1-RC1")
-        assertTrue(getCurrentVersion(projectDir, "version").toString() == "version1.0.0")
+        assertTrue(getCurrentVersion(projectDir, "version", null).toString() == "version1.0.0")
 
         // clean up
         Git(getRepository(projectDir)).tagDelete().setTags("version1.0.0", "version1.0.1-RC1").call()

@@ -10,5 +10,5 @@ val prefix: Property<String> = project.objects.property(String::class.java)
 val releaseBranch: Property<String> = project.objects.property(String::class.java)
 val preRelease: Property<String> = project.objects.property(String::class.java)
 val tagMessage: Property<String> = project.objects.property(String::class.java)
-
+val buildMetadataSeparator: Property<String> = project.objects.property(String::class.java)
 }

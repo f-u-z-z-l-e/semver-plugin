@@ -8,8 +8,8 @@ internal class VersionComparatorTest {
 
     @Test
     fun `Compare major version`() {
-        val version000 = Version("0.0.0", null)
-        val version100 = Version("1.0.0", null)
+        val version000 = Version("0.0.0", null, null)
+        val version100 = Version("1.0.0", null, null)
 
         assertEquals(1, VersionComparator.compare(version100, version000))
         assertEquals(-1, VersionComparator.compare(version000, version100))
@@ -22,8 +22,8 @@ internal class VersionComparatorTest {
 
     @Test
     fun `Compare minor version`() {
-        val version010 = Version("0.1.0", null)
-        val version020 = Version("0.2.0", null)
+        val version010 = Version("0.1.0", null, null)
+        val version020 = Version("0.2.0", null, null)
 
         assertEquals(1, VersionComparator.compare(version020, version010))
         assertEquals(-1, VersionComparator.compare(version010, version020))
@@ -36,8 +36,8 @@ internal class VersionComparatorTest {
 
     @Test
     fun `Compare patch version`() {
-        val version000 = Version("0.0.0", null)
-        val version001 = Version("0.0.1", null)
+        val version000 = Version("0.0.0", null, null)
+        val version001 = Version("0.0.1", null, null)
 
         assertEquals(1, VersionComparator.compare(version001, version000))
         assertEquals(-1, VersionComparator.compare(version000, version001))
@@ -50,8 +50,8 @@ internal class VersionComparatorTest {
 
     @Test
     fun `Compare with preRelease`() {
-        val version000 = Version("0.0.0-rc1", null)
-        val version001 = Version("0.0.0-rc2", null)
+        val version000 = Version("0.0.0-rc1", null, null)
+        val version001 = Version("0.0.0-rc2", null, null)
 
         assertEquals(1, VersionComparator.compare(version001, version000))
         assertEquals(-1, VersionComparator.compare(version000, version001))
@@ -64,8 +64,8 @@ internal class VersionComparatorTest {
 
     @Test
     fun `Compare with buildMetadata`() {
-        val version000 = Version("0.0.0+25c2427", null)
-        val version001 = Version("0.0.0+715b90e", null)
+        val version000 = Version("0.0.0+25c2427", null, null)
+        val version001 = Version("0.0.0+715b90e", null, null)
 
         assertEquals(0, VersionComparator.compare(version001, version000))
         assertEquals(0, VersionComparator.compare(version000, version001))
@@ -78,8 +78,8 @@ internal class VersionComparatorTest {
 
     @Test
     fun `Compare with preRelease and buildMetadata`() {
-        val version000 = Version("0.0.0-rc1+25c2427", null)
-        val version001 = Version("0.0.0-rc1+715b90e", null)
+        val version000 = Version("0.0.0-rc1+25c2427", null, null)
+        val version001 = Version("0.0.0-rc1+715b90e", null, null)
 
         assertEquals(0, VersionComparator.compare(version001, version000))
         assertEquals(0, VersionComparator.compare(version000, version001))
