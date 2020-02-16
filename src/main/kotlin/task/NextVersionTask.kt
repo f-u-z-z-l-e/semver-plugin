@@ -21,7 +21,6 @@ open class NextVersionTask : DefaultTask() {
     @Input
     val buildMetadataSeparator: String?
 
-
     init {
         group = "Versioning"
         description = "Resolves the next version based on the git tags of this repository."
