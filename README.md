@@ -107,17 +107,17 @@ semver {
     preRelease = 'rc1' // sets the pre-release string (default == git branch name)
     releaseBranch = 'master' // sets the git branch name that is considered to be the 'release' branch.
     tagMessage = 'Tagged automatically.' // sets the message the tagHeadCommit task should use (default = 'Tagged by 'ch.fuzzle.gradle.semver' gradle plugin.')
-    buildMetadateSeparator = '-' // defines the separator character before buildMetadata. (default = '+')
+    buildMetadataSeparator = '-' // defines the separator character before buildMetadata. (default = '+')
 }
 ```
 
 ### Kotlin
 ```kotlin
 semver {
-    prefix.value( "v") // sets the version prefix. -> v0.0.1
+    prefix.value("v") // sets the version prefix. -> v0.0.1
     preRelease.value("rc1") // sets the pre-release string (default == git branch name)
     releaseBranch.value("master") // sets the git branch name that is considered to be the 'release' branch.
     tagMessage.value("Tagged automatically.") // sets the message the tagHeadCommit task should use (default = 'Tagged by 'ch.fuzzle.gradle.semver' gradle plugin.')
-    buildMetadateSeparator.value("-") // defines the separator character before buildMetadata. (default = '+')
+    buildMetadataSeparator.value("-") // defines the separator character before buildMetadata. (default = '+')
 }
 ```
