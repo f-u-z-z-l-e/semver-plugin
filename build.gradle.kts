@@ -1,11 +1,11 @@
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.3.71"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.10.1"
     id("ch.fuzzle.gradle.semver") version "0.3.3"
     jacoco
-    id("pl.droidsonroids.jacoco.testkit") version "1.0.5"
+    id("pl.droidsonroids.jacoco.testkit") version "1.0.7"
 }
 
 description = "gradle semantic versioning plugin"
@@ -16,10 +16,10 @@ dependencies {
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.5.1.201910021850-r")
 
     testImplementation(gradleTestKit())
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.5.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
 repositories {
