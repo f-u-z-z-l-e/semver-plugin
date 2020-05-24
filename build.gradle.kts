@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
     kotlin("jvm") version "1.3.71"
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish") version "0.10.1"
+    id("com.gradle.plugin-publish") version "0.11.0"
     id("ch.fuzzle.gradle.semver") version "0.3.3"
     jacoco
     id("pl.droidsonroids.jacoco.testkit") version "1.0.7"
