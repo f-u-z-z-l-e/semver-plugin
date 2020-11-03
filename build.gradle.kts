@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.3.71"
+    kotlin("jvm") version "1.3.72"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.11.0"
     id("ch.fuzzle.gradle.semver") version "0.3.5"
@@ -12,7 +12,7 @@ description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
 
 dependencies {
-    implementation(kotlin("stdlib", "1.3.71"))
+    implementation(kotlin("stdlib", "1.3.72"))
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.7.0.202003110725-r")
 
     testImplementation(gradleTestKit())
@@ -62,9 +62,9 @@ tasks.jacocoTestReport {
 }
 
 semver {
-//    prefix.value( "test")
-//    preRelease.value("rc1")
-//    releaseBranch.value("master")
-//    tagMessage.value("Tagged automatically.")
-    buildMetadataSeparator.value("-")
+//    prefix.set( "test")
+//    preRelease.set("rc1")
+//    releaseBranch.set("master")
+//    tagMessage.set("Tagged automatically.")
+    buildMetadataSeparator.set("-")
 }
