@@ -72,14 +72,14 @@ abstract class AbstractPluginTest {
         BufferedWriter(FileWriter(destination)).use { it.write(content) }
     }
 
-    fun InputStream.toFile(file: File) {
+    private fun InputStream.toFile(file: File) {
         use { input ->
             file.outputStream().use { input.copyTo(it) }
         }
     }
 
     fun GradleRunner.withJaCoCo(): GradleRunner {
-        javaClass.classLoader.getResourceAsStream("testkit-gradle.properties").toFile(File(projectDir, "gradle.properties"))
+        javaClass.classLoader.getResourceAsStream("testkit-gradle.properties")?.toFile(File(projectDir, "gradle.properties"))
         return this
     }
 }
