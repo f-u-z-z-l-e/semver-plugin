@@ -2,8 +2,8 @@ plugins {
     `kotlin-dsl`
     kotlin("jvm") version "1.3.72"
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish") version "0.11.0"
-    id("ch.fuzzle.gradle.semver") version "0.3.5"
+    id("com.gradle.plugin-publish") version "0.12.0"
+    id("ch.fuzzle.gradle.semver") version "0.3.9"
     jacoco
     id("pl.droidsonroids.jacoco.testkit") version "1.0.7"
 }
@@ -13,12 +13,12 @@ group = "ch.fuzzle.gradle.semver"
 
 dependencies {
     implementation(kotlin("stdlib", "1.3.72"))
-    implementation("org.eclipse.jgit:org.eclipse.jgit:5.7.0.202003110725-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.9.0.202009080501-r")
 
     testImplementation(gradleTestKit())
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.0")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
