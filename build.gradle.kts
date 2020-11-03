@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.3.71"
+    kotlin("jvm") version "1.3.72"
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.11.0"
     id("ch.fuzzle.gradle.semver") version "0.3.5"
@@ -62,9 +62,9 @@ tasks.jacocoTestReport {
 }
 
 semver {
-//    prefix.value( "test")
-//    preRelease.value("rc1")
-//    releaseBranch.value("master")
-//    tagMessage.value("Tagged automatically.")
-    buildMetadataSeparator.value("-")
+//    prefix.set( "test")
+//    preRelease.set("rc1")
+//    releaseBranch.set("master")
+//    tagMessage.set("Tagged automatically.")
+    buildMetadataSeparator.set("-")
 }
