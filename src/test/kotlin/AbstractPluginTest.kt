@@ -28,7 +28,7 @@ abstract class AbstractPluginTest {
 
     @Throws(GitAPIException::class)
     fun createInitialCommit() {
-        buildFile = Files.createFile(projectDir.toPath().resolve("build.gradle")).toFile()
+        buildFile = Files.createFile(projectDir.toPath().resolve("build.gradle.kts")).toFile()
 
         git = Git.init().setDirectory(projectDir).call()
         git.add().addFilepattern("*").call()

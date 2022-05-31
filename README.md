@@ -121,3 +121,13 @@ semver {
     buildMetadataSeparator.value("-") // defines the separator character before buildMetadata. (default = '+')
 }
 ```
+
+## Development
+
+### IntelliJ
+To run the [SemVerPluginTest](src/test/kotlin/SemVerPluginTest.kt) in IntelliJ under Windows, you may have to set the
+PATH variable in the run configuration: 
+
+    Environment variables: PATH=C:\Program Files\Git\bin
+
+

@@ -2,7 +2,6 @@ import extension.SemVerExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
-import org.gradle.kotlin.dsl.register
 import task.DisplayVersion
 import task.NextVersionTask
 import task.TagHeadCommitTask
@@ -20,10 +19,10 @@ class SemVerPlugin : Plugin<Project> {
                 tasks.register("displayVersion", DisplayVersion::class.java)
 
                 // this task needs git to be configured outside of gradle.
-                tasks.register<Exec>("pushTagToOrigin") {
-                    group = "Versioning"
-                    description = "Pushes the tags to origin."
-                    commandLine = listOf("git", "push", "origin", "--tags")
+                tasks.register("pushTagToOrigin", Exec::class.java) { task ->
+                    task.group = "Versioning"
+                    task.description = "Pushes the tags to origin."
+                    task.commandLine = listOf("git", "push", "origin", "--tags")
                 }
             }
         }
