@@ -122,12 +122,87 @@ semver {
 }
 ```
 
+## Step-by-Step Usage Example
+This example includes publishing your work to an artifact repository. The version displayed by the `displayVersion` task
+is the version used for publishing the artifacts.
+
+What version are we working on?
+
+	./gradlew displayVersion        # 0.0.1
+
+Do work on version 0.0.1 and commit to Git:
+
+    git add .
+    git commit -m "fixed a bug"
+    git push
+
+What version are we going to publish?
+
+    ./gradlew displayVersion        # 0.0.1
+
+Publish version 0.0.1 to an artifact repository:
+
+    ./gradlew publish               # publish 0.0.1
+
+Now that we have finished and published version 0.0.1, we want it tagged as 0.0.1:
+
+    ./gradlew tagHeadCommit         # create 0.0.1 tag
+    ./gradlew pushTagOrigin		    # push 0.0.1 tag to Git
+    git tag -l			            # 0.0.1
+
+Other developers can now access our published version 0.0.1 by referring to the corresponding tag.
+The creation of the 0.0.1 tag moves us to the next patch version. We are ready to work on version 0.0.2:
+
+    ./gradlew displayVersion        # 0.0.2
+
+We repeat the above steps, publish and tag version 0.0.2: 
+
+    git add .
+    git commit -m "fixed another bug"
+    git push
+    ./gradlew publish               # publish 0.0.2
+    ./gradlew tagHeadCommit         # create 0.0.2 tag
+    ./gradlew pushTagOrigin		    # push 0.0.2 tag to Git
+    git tag -l			            # 0.0.2 + 0.0.1
+
+Now we are ready to work on version 0.0.3:
+
+    ./gradlew displayVersion        # 0.0.3
+
+    git add .
+    git commit -m "added new function"
+    git push
+
+Hmm, we added (backwards compatible) functionality, so we should increase the minor version before publishing. We must
+not publish a version 0.0.3, instead we want to publish 0.1.0:
+
+    ./gradlew displayVersion        # 0.0.3 (no, we don't want this)
+    git add .
+    git commit -m "new function #minor"
+    git push
+
+What version are we going to publish?
+
+    ./gradlew displayVersion        # 0.1.0
+
+Publish 0.1.0:
+
+    ./gradlew publish               # publish 0.1.0
+
+Now that we have finished and published version 0.1.0, we want it tagged as 0.1.0:
+
+    ./gradlew tagHeadCommit         # create 0.1.0 tag
+    ./gradlew pushTagOrigin		    # push 0.1.0 tag to Git
+    git tag -l			            # 0.1.0 + 0.0.2 + 0.0.1
+
+And now we are ready to work on 0.1.1:
+
+    ./gradlew displayVersion        # 0.1.1
+
 ## Development
 
 ### IntelliJ
 To run the [SemVerPluginTest](src/test/kotlin/SemVerPluginTest.kt) in IntelliJ under Windows, you may have to set the
-PATH variable in the run configuration: 
+PATH variable in the run configuration so that JGit finds Git: 
 
     Environment variables: PATH=C:\Program Files\Git\bin
-
-
