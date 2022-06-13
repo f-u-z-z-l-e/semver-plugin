@@ -24,7 +24,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     fun `Apply version to project`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Add plugin definition.")
@@ -48,7 +48,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     fun `Tag repository with latest version`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Add plugin definition.")
@@ -74,7 +74,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     fun `Push tag to remote repository`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Add plugin definition.")
@@ -101,7 +101,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     fun `Display version to cmd`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Add plugin definition.")
@@ -125,7 +125,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     fun `Increase minor version with commit message`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Increase #minor version.")
@@ -146,13 +146,24 @@ class SemVerPluginTest : AbstractPluginTest() {
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/0.1.0" }
         assertThat(tags.size, equalTo(1))
+
+        val displayVersionAfterTagResult = GradleRunner.create()
+            .withProjectDir(projectDir)
+            .withPluginClasspath()
+            .withArguments("displayVersion")
+            .forwardOutput()
+            .withJaCoCo()
+            .build()
+        assertThat(displayVersionAfterTagResult.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(displayVersionAfterTagResult.output, containsString("1 actionable task: 1 executed"))
+        assertThat(displayVersionAfterTagResult.output, containsString("0.1.1"))
     }
 
     @Test
     fun `Increase major version with commit message`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Increase #major version.")
@@ -173,13 +184,24 @@ class SemVerPluginTest : AbstractPluginTest() {
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/1.0.0" }
         assertThat(tags.size, equalTo(1))
+
+        val displayVersionAfterTagResult = GradleRunner.create()
+            .withProjectDir(projectDir)
+            .withPluginClasspath()
+            .withArguments("displayVersion")
+            .forwardOutput()
+            .withJaCoCo()
+            .build()
+        assertThat(displayVersionAfterTagResult.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(displayVersionAfterTagResult.output, containsString("1 actionable task: 1 executed"))
+        assertThat(displayVersionAfterTagResult.output, containsString("1.0.1"))
     }
 
     @Test
     fun `Display pre-release and build metadata on branch`() {
         // given
         val eol = System.getProperty("line.separator")
-        val buildFileContent = "plugins { id 'ch.fuzzle.gradle.semver' }$eol"
+        val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
         createCommit("Add plugin definition.")
@@ -204,8 +226,8 @@ class SemVerPluginTest : AbstractPluginTest() {
     fun `Configure behavior through semver extension`() {
         // given
         val buildFileContent = """
-            plugins { id 'ch.fuzzle.gradle.semver' }
-            semver {
+            plugins { id("ch.fuzzle.gradle.semver") }
+            configure<extension.SemVerExtension> {
                 prefix.value( "v")
                 preRelease.value("rc1")
                 releaseBranch.value("someOtherBranch") // on master pre-release is omitted.

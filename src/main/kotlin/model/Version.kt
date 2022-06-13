@@ -2,7 +2,12 @@ package model
 
 import util.matchSemanticVersion
 
-data class Version(val version: String, val prefix: String?, val buildMetadataSeparator: String?) {
+data class Version(
+    val version: String,
+    val prefix: String?,
+    val buildMetadataSeparator: String?,
+    val taggedCommitSha: String = ""
+) {
     private val matcher = matchSemanticVersion(version, prefix)
     var major: Int
     var minor: Int
@@ -45,4 +50,10 @@ data class Version(val version: String, val prefix: String?, val buildMetadataSe
         patch += 1
     }
 
+    fun taggedCommitShaMatches(otherSha: String?): Boolean {
+        if (otherSha?.isEmpty() != false) {
+            return false
+        }
+        return taggedCommitSha.startsWith(otherSha)
+    }
 }

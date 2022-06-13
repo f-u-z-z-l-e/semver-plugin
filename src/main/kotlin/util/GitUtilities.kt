@@ -16,8 +16,11 @@ import java.io.IOException
 @Throws(IOException::class)
 fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator: String?): Version {
     val prefixString = if (prefix.isNullOrBlank()) "" else prefix
+    val zeroVersion = Version(prefixString + "0.0.0", prefix, buildMetadataSeparator)
 
     val repository = getRepository(projectDir)
+        ?: return zeroVersion
+
     val walk = RevWalk(repository)
 
     val tags = repository.refDatabase.getRefsByPrefix(Constants.R_TAGS)
@@ -30,11 +33,10 @@ fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator:
                 }
             }
             .filterIsInstance<RevTag>()
-            .map { it.tagName }
-            .filter { it.startsWith(prefixString) }
+            .filter { it.tagName.startsWith(prefixString) }
             .map {
                 try {
-                    Version(it, prefix, buildMetadataSeparator)
+                    Version(it.tagName, prefix, buildMetadataSeparator, it.`object`.id.name)
                 } catch (e: IllegalStateException) {
                     // ignore tags not matching semver regex.
                 }
@@ -46,15 +48,17 @@ fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator:
 
     walk.dispose()
 
-    if (tags.isEmpty()) return Version(prefixString + "0.0.0", prefix, buildMetadataSeparator)
+    if (tags.isEmpty()) return zeroVersion
 
     return tags.last()
 }
 
 @Throws(IOException::class)
 fun getHeadCommitInfo(projectDir: File): CommitInfo {
+    val emptyCommitInfo = CommitInfo(null, null, null, null)
     val repository = getRepository(projectDir)
-    val headCommit = repository.resolve(Constants.HEAD)
+    val headCommit = repository?.resolve(Constants.HEAD)
+        ?: return emptyCommitInfo
 
     try {
         RevWalk(repository).use { walk ->
@@ -71,18 +75,19 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
         }
     } catch (e: IOException) {
         // exception ignored intentionally.
-        return CommitInfo(null, null, null, null)
+        return emptyCommitInfo
     }
 }
 
 @Throws(IOException::class)
 fun getBranchName(projectDir: File): String {
     val repository = getRepository(projectDir)
-    return repository.branch
+    return repository?.branch ?: ""
 }
 
 fun tagHeadCommit(projectDir: File, version: String, message: String) {
     val repository = getRepository(projectDir)
+        ?: throw IllegalArgumentException("No Git repository found (JGit needs a .git directory).")
 
     try {
         Git(repository)
@@ -98,9 +103,28 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
 }
 
 @Throws(IOException::class)
-fun getRepository(projectDir: File): Repository {
-    return FileRepositoryBuilder()
+fun getRepository(projectDir: File): Repository? {
+    try {
+        return FileRepositoryBuilder()
             .readEnvironment()
             .findGitDir(File(projectDir.absolutePath + "/.git"))
             .build()
+    } catch (iae: IllegalArgumentException) {
+        if (isJGitException(iae)) return null
+        throw iae
+    }
+}
+
+/**
+ * JGit throws an IllegalArgumentException if there is no Git repo (message with JGit 6.1.0.202203080745-r is
+ * "One of setGitDir or setWorkTree must be called").
+ */
+private fun isJGitException(e: Exception): Boolean {
+    if (e.message == null || e.stackTrace == null) return false
+    if (e.message!!.lowercase().contains("gitdir")
+        && e.stackTrace.any { stackTraceElement -> stackTraceElement.className.lowercase().contains("jgit") }
+    ) {
+        return true
+    }
+    return false
 }
