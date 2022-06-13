@@ -59,6 +59,7 @@ class SemVerPlugin : Plugin<Project> {
         val headCommitSha = headCommitInfo.sha ?: ""
 
         when {
+            version.taggedCommitShaMatches(headCommitSha) -> version.incrementPatchVersion() // version from commit message already manifested in tag
             headCommitMessage.contains("#major", true) -> version.incrementMajorVersion()
             headCommitMessage.contains("#minor", true) -> version.incrementMinorVersion()
             else -> version.incrementPatchVersion()

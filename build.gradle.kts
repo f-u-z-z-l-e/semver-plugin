@@ -5,9 +5,7 @@ plugins {
     id("ch.fuzzle.gradle.semver") version "0.3.9"
     jacoco
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
-    `maven-publish`  // TODO REMOVE, just for local tests
 }
-version="1.0.4"  // TODO REMOVE, just for local tests
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
 

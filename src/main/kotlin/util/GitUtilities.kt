@@ -33,11 +33,10 @@ fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator:
                 }
             }
             .filterIsInstance<RevTag>()
-            .map { it.tagName }
-            .filter { it.startsWith(prefixString) }
+            .filter { it.tagName.startsWith(prefixString) }
             .map {
                 try {
-                    Version(it, prefix, buildMetadataSeparator)
+                    Version(it.tagName, prefix, buildMetadataSeparator, it.`object`.id.name)
                 } catch (e: IllegalStateException) {
                     // ignore tags not matching semver regex.
                 }

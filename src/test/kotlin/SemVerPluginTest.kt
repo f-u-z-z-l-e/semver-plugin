@@ -146,6 +146,17 @@ class SemVerPluginTest : AbstractPluginTest() {
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/0.1.0" }
         assertThat(tags.size, equalTo(1))
+
+        val displayVersionAfterTagResult = GradleRunner.create()
+            .withProjectDir(projectDir)
+            .withPluginClasspath()
+            .withArguments("displayVersion")
+            .forwardOutput()
+            .withJaCoCo()
+            .build()
+        assertThat(displayVersionAfterTagResult.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(displayVersionAfterTagResult.output, containsString("1 actionable task: 1 executed"))
+        assertThat(displayVersionAfterTagResult.output, containsString("0.1.1"))
     }
 
     @Test
@@ -173,6 +184,17 @@ class SemVerPluginTest : AbstractPluginTest() {
 
         val tags = git.tagList().call().filter { it.name == "refs/tags/1.0.0" }
         assertThat(tags.size, equalTo(1))
+
+        val displayVersionAfterTagResult = GradleRunner.create()
+            .withProjectDir(projectDir)
+            .withPluginClasspath()
+            .withArguments("displayVersion")
+            .forwardOutput()
+            .withJaCoCo()
+            .build()
+        assertThat(displayVersionAfterTagResult.output, containsString("BUILD SUCCESSFUL"))
+        assertThat(displayVersionAfterTagResult.output, containsString("1 actionable task: 1 executed"))
+        assertThat(displayVersionAfterTagResult.output, containsString("1.0.1"))
     }
 
     @Test
