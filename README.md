@@ -11,9 +11,6 @@ This gradle plugin sets the project version of your project based on your projec
 
 ## Versioning Tasks
 The following task are added to gradle:
-* nextVersion
-  * Calculates the project version according to semantic versioning. See [version evaluation](#version-evaluation).
-
 * tagHeadCommit
   * Tags the head commit on the git repository with the current [evaluated version](#Version-evaluation).
 
