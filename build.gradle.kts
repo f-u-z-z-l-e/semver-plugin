@@ -45,7 +45,7 @@ gradlePlugin {
 pluginBundle {
     website = "https://github.com/f-u-z-z-l-e/semver-plugin"
     vcsUrl = "https://github.com/f-u-z-z-l-e/semver-plugin"
-    tags = listOf("gradle", "build", "semver", "versioning", "git", "kotlin")
+    tags = listOf("build", "semver", "versioning", "git", "kotlin")
 }
 
 tasks {
