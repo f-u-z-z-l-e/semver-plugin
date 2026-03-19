@@ -1,10 +1,10 @@
 plugins {
     `java-gradle-plugin`
-    kotlin("jvm") version "1.6.21"
-    id("com.gradle.plugin-publish") version "1.0.0-rc-2"
-    id("ch.fuzzle.gradle.semver") version "0.3.9"
+    kotlin("jvm") version "2.1.20"
+    id("com.gradle.plugin-publish") version "2.1.1"
+    // id("ch.fuzzle.gradle.semver") version "1.0.0"  // temporarily disabled to isolate WrapUtil error
     jacoco
-    id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
+    // id("pl.droidsonroids.jacoco.testkit") version "1.0.12"  // temporarily disabled to isolate WrapUtil error
 }
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
@@ -20,11 +20,8 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
-// Toolchain for Kotlin
 kotlin {
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(17))
-    }
+    jvmToolchain(17)
 }
 
 repositories {
@@ -32,20 +29,17 @@ repositories {
 }
 
 gradlePlugin {
+    website.set("https://github.com/f-u-z-z-l-e/semver-plugin")
+    vcsUrl.set("https://github.com/f-u-z-z-l-e/semver-plugin")
     plugins {
         create("semVerPlugin") {
             id = "ch.fuzzle.gradle.semver"
             displayName = "gradle semantic versioning plugin"
             description = "This plugin adds tasks to facilitate semantic versioning of gradle projects."
             implementationClass = "SemVerPlugin"
+            tags.set(listOf("build", "semver", "versioning", "git", "kotlin"))
         }
     }
-}
-
-pluginBundle {
-    website = "https://github.com/f-u-z-z-l-e/semver-plugin"
-    vcsUrl = "https://github.com/f-u-z-z-l-e/semver-plugin"
-    tags = listOf("build", "semver", "versioning", "git", "kotlin")
 }
 
 tasks {
@@ -57,15 +51,15 @@ tasks {
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = true
-        html.isEnabled = false
+        xml.required.set(true)
+        html.required.set(false)
     }
 }
 
-semver {
-//    prefix.set( "test")
-//    preRelease.set("rc1")
-//    releaseBranch.set("master")
-//    tagMessage.set("Tagged automatically.")
-    buildMetadataSeparator.set("-")
-}
+// semver {
+////    prefix.set( "test")
+////    preRelease.set("rc1")
+////    releaseBranch.set("master")
+////    tagMessage.set("Tagged automatically.")
+//    buildMetadataSeparator.set("-")
+// }
