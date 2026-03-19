@@ -1,0 +1,21 @@
+# Centralized dependency version management for semver-plugin
+# All build files reference versions and libraries from this catalog.
+
+[versions]
+kotlin = "2.3.10"
+jgit = "7.6.0.202603022253-r"
+junit-jupiter = "5.12.2"
+hamcrest = "3.0"
+gradle-plugin-publish = "2.1.1"
+
+[libraries]
+jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter" }
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+gradle-plugin-publish = { id = "com.gradle.plugin-publish", version.ref = "gradle-plugin-publish" }

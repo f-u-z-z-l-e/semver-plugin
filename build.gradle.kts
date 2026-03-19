@@ -1,31 +1,45 @@
 plugins {
     `java-gradle-plugin`
-    kotlin("jvm") version "2.1.20"
-    id("com.gradle.plugin-publish") version "2.1.1"
-    // id("ch.fuzzle.gradle.semver") version "1.0.0"  // temporarily disabled to isolate WrapUtil error
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.gradle.plugin.publish)
+    id("ch.fuzzle.gradle.semver") version "1.0.0"  // temporarily disabled to isolate WrapUtil error
+
     jacoco
     // id("pl.droidsonroids.jacoco.testkit") version "1.0.12"  // temporarily disabled to isolate WrapUtil error
 }
+
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
 
-dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.eclipse.jgit:org.eclipse.jgit:6.1.0.202203080745-r")
-
-    testImplementation(gradleTestKit())
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
-}
-
-kotlin {
-    jvmToolchain(17)
-}
-
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation(libs.jgit)
+
+    testImplementation(gradleTestKit())
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.hamcrest)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
 }
 
 gradlePlugin {
@@ -39,13 +53,6 @@ gradlePlugin {
             implementationClass = "SemVerPlugin"
             tags.set(listOf("build", "semver", "versioning", "git", "kotlin"))
         }
-    }
-}
-
-tasks {
-    // Use the built-in JUnit support of Gradle.
-    "test"(Test::class) {
-        useJUnitPlatform()
     }
 }
 
