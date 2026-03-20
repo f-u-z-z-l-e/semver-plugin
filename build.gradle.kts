@@ -2,8 +2,9 @@ plugins {
     `java-gradle-plugin`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.gradle.plugin.publish)
-//    id("ch.fuzzle.gradle.semver") version "1.0.0"  // temporarily disabled to isolate WrapUtil error
-
+    alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.ch.fuzzle.gradle.semver)
     jacoco
     // id("pl.droidsonroids.jacoco.testkit") version "1.0.12"  // temporarily disabled to isolate WrapUtil error
 }
@@ -63,10 +64,10 @@ tasks.jacocoTestReport {
     }
 }
 
-// semver {
-////    prefix.set( "test")
-////    preRelease.set("rc1")
-////    releaseBranch.set("master")
-////    tagMessage.set("Tagged automatically.")
-//    buildMetadataSeparator.set("-")
-// }
+semver {
+//    prefix.set( "test")
+//    preRelease.set("rc1")
+//    releaseBranch.set("master")
+//    tagMessage.set("Tagged automatically.")
+    buildMetadataSeparator.set("-")
+}
