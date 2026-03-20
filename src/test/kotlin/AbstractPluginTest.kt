@@ -5,11 +5,14 @@ import org.eclipse.jgit.transport.URIish
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
-import java.io.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
+import java.io.InputStream
 import java.nio.file.Files
 
 abstract class AbstractPluginTest {
-
     @TempDir
     lateinit var testDir: File
 
@@ -32,10 +35,7 @@ abstract class AbstractPluginTest {
 
         git = Git.init().setDirectory(projectDir).call()
         git.add().addFilepattern("*").call()
-        git.commit()
-                .setSign(false)
-                .setMessage("Add build.gradle file.")
-                .call()
+        git.commit().setSign(false).setMessage("Add build.gradle file.").call()
     }
 
     fun createRemote() {
@@ -53,10 +53,7 @@ abstract class AbstractPluginTest {
     @Throws(GitAPIException::class)
     fun createCommit(message: String?) {
         git.add().addFilepattern("*").call()
-        git.commit()
-                .setSign(false)
-                .setMessage(message)
-                .call()
+        git.commit().setSign(false).setMessage(message).call()
     }
 
     fun pushCommit() {
@@ -79,7 +76,9 @@ abstract class AbstractPluginTest {
     }
 
     fun GradleRunner.withJaCoCo(): GradleRunner {
-        javaClass.classLoader.getResourceAsStream("testkit-gradle.properties")?.toFile(File(projectDir, "gradle.properties"))
+        javaClass.classLoader
+            .getResourceAsStream("testkit-gradle.properties")
+            ?.toFile(File(projectDir, "gradle.properties"))
         return this
     }
 }

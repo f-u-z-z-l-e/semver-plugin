@@ -17,6 +17,7 @@ class VersionComparator {
                 o1.preRelease != o2.preRelease
                         && o1.preRelease != null
                         && o2.preRelease != null -> o1.preRelease!!.compareTo(o2.preRelease!!)
+
                 else -> 0
             }
         }

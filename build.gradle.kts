@@ -2,8 +2,8 @@ plugins {
     `java-gradle-plugin`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.gradle.plugin.publish)
-    alias(libs.plugins.ktlint) apply false
-    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
     alias(libs.plugins.ch.fuzzle.gradle.semver)
     jacoco
     // id("pl.droidsonroids.jacoco.testkit") version "1.0.12"  // temporarily disabled to isolate WrapUtil error

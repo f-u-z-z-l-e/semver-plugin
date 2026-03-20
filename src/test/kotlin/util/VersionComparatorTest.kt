@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class VersionComparatorTest {
-
     @Test
     fun `Compare major version`() {
         val version000 = Version("0.0.0", null, null)
@@ -89,6 +88,4 @@ internal class VersionComparatorTest {
         assertEquals("0.0.0-rc1+25c2427", version000.toString())
         assertEquals("0.0.0-rc1+715b90e", version001.toString())
     }
-
 }
-

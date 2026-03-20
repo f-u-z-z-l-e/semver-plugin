@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class VersionTest {
-
     @Test
     internal fun `Test Version toString with Prefix`() {
         val version = Version("v1.0.1", "v", null)
@@ -31,11 +30,11 @@ internal class VersionTest {
     internal fun `taggedCommitShaMatches null is false`() {
         assertFalse(
             Version("v1.0.1", "v", null).taggedCommitShaMatches(null),
-            "Empty taggedCommitSha must not match null"
+            "Empty taggedCommitSha must not match null",
         )
         assertFalse(
             Version("v1.0.1", "v", null, "97904f87f8889a12d11c1ec3a0f8def2f28ce762").taggedCommitShaMatches(null),
-            "taggedCommitSha must not match null"
+            "taggedCommitSha must not match null",
         )
     }
 
@@ -43,11 +42,11 @@ internal class VersionTest {
     internal fun `taggedCommitShaMatches empty String is false`() {
         assertFalse(
             Version("v1.0.1", "v", null).taggedCommitShaMatches(""),
-            "Empty taggedCommitSha must not match empty String"
+            "Empty taggedCommitSha must not match empty String",
         )
         assertFalse(
             Version("v1.0.1", "v", null, "97904f87f8889a12d11c1ec3a0f8def2f28ce762").taggedCommitShaMatches(""),
-            "taggedCommitSha must not match empty String"
+            "taggedCommitSha must not match empty String",
         )
     }
 
@@ -55,11 +54,11 @@ internal class VersionTest {
     internal fun `taggedCommitShaMatches different SHA is false`() {
         assertFalse(
             Version("v1.0.1", "v", null).taggedCommitShaMatches("97904f8"),
-            "Empty taggedCommitSha must not match SHA"
+            "Empty taggedCommitSha must not match SHA",
         )
         assertFalse(
             Version("v1.0.1", "v", null, "97904f87f8889a12d11c1ec3a0f8def2f28ce762").taggedCommitShaMatches("a0f8def"),
-            "taggedCommitSha must not match other SHA even if substring is contained"
+            "taggedCommitSha must not match other SHA even if substring is contained",
         )
     }
 
@@ -67,7 +66,7 @@ internal class VersionTest {
     internal fun `taggedCommitShaMatches success`() {
         assertTrue(
             Version("v1.0.1", "v", null, "97904f87f8889a12d11c1ec3a0f8def2f28ce762").taggedCommitShaMatches("97904f8"),
-            "taggedCommitSha must match short SHA"
+            "taggedCommitSha must match short SHA",
         )
     }
 }

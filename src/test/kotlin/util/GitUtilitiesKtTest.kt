@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import java.io.File
 
 internal class GitUtilitiesKtTest {
-
     @Test
     fun `Return checked out branch name`() {
         // given
@@ -59,7 +58,10 @@ internal class GitUtilitiesKtTest {
         val currentVersion = getCurrentVersion(projectDir, "test", null)
 
         // then
-        assertTrue(currentVersion.toString() == "test0.1.0", "Current version with prefix 'test' could not be acquired.")
+        assertTrue(
+            currentVersion.toString() == "test0.1.0",
+            "Current version with prefix 'test' could not be acquired.",
+        )
     }
 
     @Test
@@ -101,5 +103,4 @@ internal class GitUtilitiesKtTest {
         val tags = Git(repository).tagList().call().filter { it.name == "refs/tags/$tagName" }
         assertThat(tags.size, Matchers.equalTo(1))
     }
-
 }

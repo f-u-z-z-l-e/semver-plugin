@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class RegexUtilitiesTest {
-
     @Test
     fun `Match minimal SemanticVersion`() {
         val matcher = matchSemanticVersion("1.0.1", null)
@@ -100,6 +99,4 @@ internal class RegexUtilitiesTest {
         assertEquals("rc1", matcher.group(4))
         assertEquals("asdfsfd", matcher.group(5))
     }
-
 }
-

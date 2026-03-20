@@ -6,7 +6,6 @@ import org.gradle.work.DisableCachingByDefault
 
 @DisableCachingByDefault(because = "This task only prints the version to stdout")
 open class DisplayVersion : DefaultTask() {
-
     init {
         group = "Versioning"
         description = "Displays the current project version."
@@ -16,5 +15,4 @@ open class DisplayVersion : DefaultTask() {
     fun displayVersion() {
         println("${project.version}")
     }
-
 }

@@ -10,7 +10,6 @@ import util.tagHeadCommit
 
 @DisableCachingByDefault(because = "This task tags the git repository, which is a side effect")
 open class TagHeadCommitTask : DefaultTask() {
-
     @Input
     val tagMessage: String
 
@@ -28,5 +27,4 @@ open class TagHeadCommitTask : DefaultTask() {
     fun tagHeadCommit() {
         tagHeadCommit(project.projectDir, project.version.toString(), tagMessage)
     }
-
 }

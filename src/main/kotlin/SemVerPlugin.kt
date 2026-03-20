@@ -4,7 +4,11 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
 import task.DisplayVersion
 import task.TagHeadCommitTask
-import util.*
+import util.getBranchName
+import util.getCurrentVersion
+import util.getHeadCommitInfo
+import util.getStringOrDefault
+import util.toPreReleaseString
 
 class SemVerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -59,7 +63,8 @@ class SemVerPlugin : Plugin<Project> {
         val headCommitSha = headCommitInfo.sha ?: ""
 
         when {
-            version.taggedCommitShaMatches(headCommitSha) -> version.incrementPatchVersion() // version from commit message already manifested in tag
+            // version from commit message already manifested in tag
+            version.taggedCommitShaMatches(headCommitSha) -> version.incrementPatchVersion()
             headCommitMessage.contains("#major", true) -> version.incrementMajorVersion()
             headCommitMessage.contains("#minor", true) -> version.incrementMinorVersion()
             else -> version.incrementPatchVersion()

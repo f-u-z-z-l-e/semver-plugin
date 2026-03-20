@@ -24,27 +24,27 @@ fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator:
     val walk = RevWalk(repository)
 
     val tags = repository.refDatabase.getRefsByPrefix(Constants.R_TAGS)
-            .asSequence()
-            .map {
-                try {
-                    walk.parseTag(it.objectId)
-                } catch (e: IncorrectObjectTypeException) {
-                    // ref is a lightweight (aka unannotated) tag and thus ignored.
-                }
+        .asSequence()
+        .map {
+            try {
+                walk.parseTag(it.objectId)
+            } catch (e: IncorrectObjectTypeException) {
+                // ref is a lightweight (aka unannotated) tag and thus ignored.
             }
-            .filterIsInstance<RevTag>()
-            .filter { it.tagName.startsWith(prefixString) }
-            .map {
-                try {
-                    Version(it.tagName, prefix, buildMetadataSeparator, it.`object`.id.name)
-                } catch (e: IllegalStateException) {
-                    // ignore tags not matching semver regex.
-                }
+        }
+        .filterIsInstance<RevTag>()
+        .filter { it.tagName.startsWith(prefixString) }
+        .map {
+            try {
+                Version(it.tagName, prefix, buildMetadataSeparator, it.`object`.id.name)
+            } catch (e: IllegalStateException) {
+                // ignore tags not matching semver regex.
             }
-            .filterIsInstance<Version>()
-            .sortedWith(VersionComparator)
-            .filter { it.preRelease.isNullOrBlank() && it.buildMetadata.isNullOrBlank() }
-            .toList()
+        }
+        .filterIsInstance<Version>()
+        .sortedWith(VersionComparator)
+        .filter { it.preRelease.isNullOrBlank() && it.buildMetadata.isNullOrBlank() }
+        .toList()
 
     walk.dispose()
 
@@ -64,10 +64,10 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
         RevWalk(repository).use { walk ->
             val commit = walk.parseCommit(headCommit)
             val commitInfo = CommitInfo(
-                    commit.fullMessage,
-                    commit.id.name.substring(IntRange(0, 7)),
-                    commit.authorIdent.name,
-                    commit.authorIdent.emailAddress
+                commit.fullMessage,
+                commit.id.name.substring(IntRange(0, 7)),
+                commit.authorIdent.name,
+                commit.authorIdent.emailAddress
             )
 
             walk.dispose()
@@ -91,12 +91,12 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
 
     try {
         Git(repository)
-                .tag()
-                .setName(version)
-                .setMessage(message)
-                .setAnnotated(true)
-                .setForceUpdate(true)
-                .call()
+            .tag()
+            .setName(version)
+            .setMessage(message)
+            .setAnnotated(true)
+            .setForceUpdate(true)
+            .call()
     } catch (e: JGitInternalException) {
         // fail silently
     }

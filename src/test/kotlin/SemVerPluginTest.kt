@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Files.isDirectory
 
 class SemVerPluginTest : AbstractPluginTest() {
-
     @BeforeEach
     @Throws(Exception::class)
     fun setup() {
@@ -30,7 +29,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createCommit("Add plugin definition.")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("properties")
@@ -54,7 +55,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createCommit("Add plugin definition.")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit")
@@ -81,7 +84,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         pushCommit()
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit", "pushTagToOrigin")
@@ -107,7 +112,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createCommit("Add plugin definition.")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("displayVersion")
@@ -131,7 +138,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createCommit("Increase #minor version.")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit", "pushTagToOrigin", "displayVersion")
@@ -147,13 +156,15 @@ class SemVerPluginTest : AbstractPluginTest() {
         val tags = git.tagList().call().filter { it.name == "refs/tags/0.1.0" }
         assertThat(tags.size, equalTo(1))
 
-        val displayVersionAfterTagResult = GradleRunner.create()
-            .withProjectDir(projectDir)
-            .withPluginClasspath()
-            .withArguments("displayVersion")
-            .forwardOutput()
-            .withJaCoCo()
-            .build()
+        val displayVersionAfterTagResult =
+            GradleRunner
+                .create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("displayVersion")
+                .forwardOutput()
+                .withJaCoCo()
+                .build()
         assertThat(displayVersionAfterTagResult.output, containsString("BUILD SUCCESSFUL"))
         assertThat(displayVersionAfterTagResult.output, containsString("1 actionable task: 1 executed"))
         assertThat(displayVersionAfterTagResult.output, containsString("0.1.1"))
@@ -169,7 +180,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createCommit("Increase #major version.")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit", "pushTagToOrigin", "displayVersion")
@@ -185,13 +198,15 @@ class SemVerPluginTest : AbstractPluginTest() {
         val tags = git.tagList().call().filter { it.name == "refs/tags/1.0.0" }
         assertThat(tags.size, equalTo(1))
 
-        val displayVersionAfterTagResult = GradleRunner.create()
-            .withProjectDir(projectDir)
-            .withPluginClasspath()
-            .withArguments("displayVersion")
-            .forwardOutput()
-            .withJaCoCo()
-            .build()
+        val displayVersionAfterTagResult =
+            GradleRunner
+                .create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("displayVersion")
+                .forwardOutput()
+                .withJaCoCo()
+                .build()
         assertThat(displayVersionAfterTagResult.output, containsString("BUILD SUCCESSFUL"))
         assertThat(displayVersionAfterTagResult.output, containsString("1 actionable task: 1 executed"))
         assertThat(displayVersionAfterTagResult.output, containsString("1.0.1"))
@@ -208,7 +223,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createBranch("pre-release-test")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("displayVersion")
@@ -240,7 +257,9 @@ class SemVerPluginTest : AbstractPluginTest() {
         createCommit("Configure semver extension.")
 
         // when
-        val result = GradleRunner.create()
+        val result =
+            GradleRunner
+                .create()
                 .withProjectDir(projectDir)
                 .withPluginClasspath()
                 .withArguments("tagHeadCommit", "displayVersion")

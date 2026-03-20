@@ -6,7 +6,7 @@ data class Version(
     val version: String,
     val prefix: String?,
     val buildMetadataSeparator: String?,
-    val taggedCommitSha: String = ""
+    val taggedCommitSha: String = "",
 ) {
     private val matcher = matchSemanticVersion(version, prefix)
     var major: Int

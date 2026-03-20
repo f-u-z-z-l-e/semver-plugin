@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class StringUtilitiesKtTest {
-
     @Test
     fun `Do not change single word string`() {
         assertEquals("abc", "abc".toPreReleaseString())
@@ -36,5 +35,4 @@ internal class StringUtilitiesKtTest {
     fun `Return default value for blank string input on getStringOrDefault`() {
         assertEquals("default", getStringOrDefault("", "default"))
     }
-
 }
