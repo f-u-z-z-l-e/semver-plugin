@@ -4,7 +4,7 @@
 [versions]
 kotlin = "2.3.10"
 jgit = "7.6.0.202603022253-r"
-junit-jupiter = "5.12.2"
+junit-jupiter = "6.0.2"
 hamcrest = "3.0"
 gradle-plugin-publish = "2.1.1"
 

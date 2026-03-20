@@ -2,7 +2,7 @@ plugins {
     `java-gradle-plugin`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.gradle.plugin.publish)
-    id("ch.fuzzle.gradle.semver") version "1.0.0"  // temporarily disabled to isolate WrapUtil error
+//    id("ch.fuzzle.gradle.semver") version "1.0.0"  // temporarily disabled to isolate WrapUtil error
 
     jacoco
     // id("pl.droidsonroids.jacoco.testkit") version "1.0.12"  // temporarily disabled to isolate WrapUtil error
