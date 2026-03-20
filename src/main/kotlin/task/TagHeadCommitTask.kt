@@ -4,9 +4,11 @@ import extension.SemVerExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import org.gradle.work.DisableCachingByDefault
 import util.getStringOrDefault
 import util.tagHeadCommit
 
+@DisableCachingByDefault(because = "This task tags the git repository, which is a side effect")
 open class TagHeadCommitTask : DefaultTask() {
 
     @Input
