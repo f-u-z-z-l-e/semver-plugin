@@ -4,8 +4,8 @@ plugins {
     alias(libs.plugins.gradle.plugin.publish)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ch.fuzzle.gradle.semver)
+    alias(libs.plugins.jacoco.testkit)
     jacoco
-    // id("pl.droidsonroids.jacoco.testkit") version "1.0.12"  // temporarily disabled to isolate WrapUtil error
 }
 
 description = "gradle semantic versioning plugin"

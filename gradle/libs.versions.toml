@@ -8,6 +8,7 @@ junit-jupiter = "6.0.2"
 hamcrest = "3.0"
 gradle-plugin-publish = "2.1.1"
 detekt = "2.0.0-alpha.2"
+jacoco-testkit = "1.0.5"
 ch-fuzzle-gradle-semver = "1.0.0"
 
 [libraries]
@@ -22,4 +23,5 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 gradle-plugin-publish = { id = "com.gradle.plugin-publish", version.ref = "gradle-plugin-publish" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
+jacoco-testkit = { id = "io.github.gmazzo.gradle.testkit.jacoco", version.ref = "jacoco-testkit" }
 ch-fuzzle-gradle-semver = { id = "ch.fuzzle.gradle.semver", version.ref = "ch-fuzzle-gradle-semver" }
