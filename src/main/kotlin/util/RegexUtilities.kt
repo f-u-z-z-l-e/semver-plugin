@@ -7,16 +7,16 @@ import java.util.regex.Pattern
  * Regular expression copied from:
  * https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
  */
-private const val SEMANTIC_VERSION_REGEX =
-    "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)" +
-            "(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))" +
-            "?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?\$"
+private const val SEMANTIC_VERSION_PATTERN =
+    """(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)""" +
+            """(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?""" +
+            """(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?"""
 
 fun semanticVersionPattern(prefix: String?): Pattern =
     if (prefix.isNullOrEmpty()) {
-        Pattern.compile("^$SEMANTIC_VERSION_REGEX$")
+        Pattern.compile("^$SEMANTIC_VERSION_PATTERN$")
     } else {
-        Pattern.compile("^$prefix$SEMANTIC_VERSION_REGEX$")
+        Pattern.compile("^$prefix$SEMANTIC_VERSION_PATTERN$")
     }
 
 fun matchSemanticVersion(
