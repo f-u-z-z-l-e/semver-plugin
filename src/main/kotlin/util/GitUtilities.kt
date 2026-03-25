@@ -3,15 +3,14 @@ package util
 import model.CommitInfo
 import model.Version
 import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.api.errors.JGitInternalException
-import org.eclipse.jgit.errors.IncorrectObjectTypeException
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.Repository
-import org.eclipse.jgit.revwalk.RevTag
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.io.File
 import java.io.IOException
+
+private const val SHORT_SHA_LENGTH = 8
 
 @Throws(IOException::class)
 fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator: String?): Version {
@@ -25,32 +24,21 @@ fun getCurrentVersion(projectDir: File, prefix: String?, buildMetadataSeparator:
 
     val tags = repository.refDatabase.getRefsByPrefix(Constants.R_TAGS)
         .asSequence()
-        .map {
-            try {
-                walk.parseTag(it.objectId)
-            } catch (e: IncorrectObjectTypeException) {
-                // ref is a lightweight (aka unannotated) tag and thus ignored.
-            }
-        }
-        .filterIsInstance<RevTag>()
+        // if ref is a lightweight (aka unannotated) tag it can be ignored
+        .mapNotNull { runCatching { walk.parseTag(it.objectId) }.getOrNull() }
         .filter { it.tagName.startsWith(prefixString) }
-        .map {
-            try {
-                Version(it.tagName, prefix, buildMetadataSeparator, it.`object`.id.name)
-            } catch (e: IllegalStateException) {
-                // ignore tags not matching semver regex.
-            }
+        .mapNotNull { tag ->
+            runCatching {
+                Version(tag.tagName, prefix, buildMetadataSeparator, tag.`object`.id.name)
+            }.getOrNull()
         }
-        .filterIsInstance<Version>()
-        .sortedWith(VersionComparator)
         .filter { it.preRelease.isNullOrBlank() && it.buildMetadata.isNullOrBlank() }
+        .sortedWith(VersionComparator)
         .toList()
 
     walk.dispose()
 
-    if (tags.isEmpty()) return zeroVersion
-
-    return tags.last()
+    return tags.lastOrNull() ?: zeroVersion
 }
 
 @Throws(IOException::class)
@@ -60,23 +48,19 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
     val headCommit = repository?.resolve(Constants.HEAD)
         ?: return emptyCommitInfo
 
-    try {
+    return runCatching {
         RevWalk(repository).use { walk ->
             val commit = walk.parseCommit(headCommit)
-            val commitInfo = CommitInfo(
-                commit.fullMessage,
-                commit.id.name.substring(IntRange(0, 7)),
-                commit.authorIdent.name,
-                commit.authorIdent.emailAddress
-            )
-
+            val shortSha = commit.id.name.substring(IntRange(0, SHORT_SHA_LENGTH - 1))
             walk.dispose()
-            return commitInfo
+            CommitInfo(
+                commit.fullMessage,
+                shortSha,
+                commit.authorIdent.name,
+                commit.authorIdent.emailAddress,
+            )
         }
-    } catch (e: IOException) {
-        // exception ignored intentionally.
-        return emptyCommitInfo
-    }
+    }.getOrDefault(emptyCommitInfo)
 }
 
 @Throws(IOException::class)
@@ -89,7 +73,7 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
     val repository = getRepository(projectDir)
         ?: throw IllegalArgumentException("No Git repository found (JGit needs a .git directory).")
 
-    try {
+    runCatching {
         Git(repository)
             .tag()
             .setName(version)
@@ -97,34 +81,28 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
             .setAnnotated(true)
             .setForceUpdate(true)
             .call()
-    } catch (e: JGitInternalException) {
-        // fail silently
     }
 }
 
 @Throws(IOException::class)
-fun getRepository(projectDir: File): Repository? {
-    try {
-        return FileRepositoryBuilder()
+fun getRepository(projectDir: File): Repository? =
+    runCatching {
+        FileRepositoryBuilder()
             .readEnvironment()
             .findGitDir(File(projectDir.absolutePath + "/.git"))
             .build()
-    } catch (iae: IllegalArgumentException) {
-        if (isJGitException(iae)) return null
-        throw iae
+    }.getOrElse { e ->
+        if (e is IllegalArgumentException && isJGitException(e)) {
+            null
+        } else {
+            throw e
+        }
     }
-}
 
 /**
  * JGit throws an IllegalArgumentException if there is no Git repo (message with JGit 6.1.0.202203080745-r is
  * "One of setGitDir or setWorkTree must be called").
  */
-private fun isJGitException(e: Exception): Boolean {
-    if (e.message == null || e.stackTrace == null) return false
-    if (e.message!!.lowercase().contains("gitdir")
-        && e.stackTrace.any { stackTraceElement -> stackTraceElement.className.lowercase().contains("jgit") }
-    ) {
-        return true
-    }
-    return false
-}
+private fun isJGitException(e: Exception): Boolean =
+    e.message?.lowercase()?.contains("gitdir") == true
+            && e.stackTrace?.any { it.className.lowercase().contains("jgit") } == true

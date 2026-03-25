@@ -2,7 +2,6 @@ plugins {
     `java-gradle-plugin`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.gradle.plugin.publish)
-    alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ch.fuzzle.gradle.semver)
     jacoco
