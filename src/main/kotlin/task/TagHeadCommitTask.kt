@@ -1,30 +1,32 @@
 package task
 
-import extension.SemVerExtension
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.work.DisableCachingByDefault
-import util.getStringOrDefault
 import util.tagHeadCommit
 
 @DisableCachingByDefault(because = "This task tags the git repository, which is a side effect")
-open class TagHeadCommitTask : DefaultTask() {
-    @Input
-    val tagMessage: String
+abstract class TagHeadCommitTask : DefaultTask() {
+    @get:Input
+    abstract val tagMessage: Property<String>
 
-    private val defaultTagMessage: String = "Tagged by 'ch.fuzzle.gradle.semver' gradle plugin."
+    @get:Input
+    abstract val version: Property<String>
+
+    @get:Internal
+    abstract val projectDir: DirectoryProperty
 
     init {
         group = "Versioning"
         description = "Tags the latest commit with the current project version."
-
-        val semVerExtension = project.extensions.getByType(SemVerExtension::class.java)
-        this.tagMessage = getStringOrDefault(semVerExtension.tagMessage.orNull, defaultTagMessage) + "\n"
     }
 
     @TaskAction
     fun tagHeadCommit() {
-        tagHeadCommit(project.projectDir, project.version.toString(), tagMessage)
+        tagHeadCommit(projectDir.get().asFile, version.get(), tagMessage.get())
     }
 }

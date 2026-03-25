@@ -73,23 +73,20 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
     val repository = getRepository(projectDir)
         ?: throw IllegalArgumentException("No Git repository found (JGit needs a .git directory).")
 
-    runCatching {
-        Git(repository)
-            .tag()
-            .setName(version)
-            .setMessage(message)
-            .setAnnotated(true)
-            .setForceUpdate(true)
-            .call()
-    }
+    Git(repository)
+        .tag()
+        .setName(version)
+        .setMessage(message)
+        .setAnnotated(true)
+        .setForceUpdate(true)
+        .call()
 }
 
 @Throws(IOException::class)
 fun getRepository(projectDir: File): Repository? =
     runCatching {
         FileRepositoryBuilder()
-            .readEnvironment()
-            .findGitDir(File(projectDir.absolutePath + "/.git"))
+            .findGitDir(projectDir.absoluteFile)
             .build()
     }.getOrElse { e ->
         if (e is IllegalArgumentException && isJGitException(e)) {

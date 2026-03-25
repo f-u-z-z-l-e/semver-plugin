@@ -1,11 +1,16 @@
 package task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.work.DisableCachingByDefault
 
 @DisableCachingByDefault(because = "This task only prints the version to stdout")
-open class DisplayVersion : DefaultTask() {
+abstract class DisplayVersion : DefaultTask() {
+    @get:Input
+    abstract val version: Property<String>
+
     init {
         group = "Versioning"
         description = "Displays the current project version."
@@ -13,6 +18,6 @@ open class DisplayVersion : DefaultTask() {
 
     @TaskAction
     fun displayVersion() {
-        println("${project.version}")
+        println(version.get())
     }
 }
