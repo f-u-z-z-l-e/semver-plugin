@@ -22,7 +22,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Throws(Exception::class)
     fun `Apply version to project`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
@@ -48,7 +48,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Test
     fun `Tag repository with latest version`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
@@ -76,7 +76,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Test
     fun `Push tag to remote repository`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
@@ -105,7 +105,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Test
     fun `Display version to cmd`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
@@ -131,7 +131,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Test
     fun `Increase minor version with commit message`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
@@ -173,7 +173,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Test
     fun `Increase major version with commit message`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
@@ -215,7 +215,7 @@ class SemVerPluginTest : AbstractPluginTest() {
     @Test
     fun `Display pre-release and build metadata on branch`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)

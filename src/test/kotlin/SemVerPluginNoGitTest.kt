@@ -20,7 +20,7 @@ class SemVerPluginNoGitTest : AbstractPluginTest() {
     @Test
     fun `Display version to cmd without Git repository present`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)

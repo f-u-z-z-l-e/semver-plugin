@@ -18,7 +18,7 @@ class SemVerPlugin : Plugin<Project> {
             tasks.register("tagHeadCommit", TagHeadCommitTask::class.java)
             tasks.register("displayVersion", DisplayVersion::class.java)
 
-            // this task needs git to be configured outside of gradle.
+            // this task needs git to be configured outside the Gradle build tool
             tasks.register("pushTagToOrigin", Exec::class.java) { task ->
                 task.group = "Versioning"
                 task.description = "Pushes the tags to origin."
