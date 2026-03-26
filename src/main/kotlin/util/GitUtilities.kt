@@ -60,7 +60,9 @@ fun getHeadCommitInfo(projectDir: File): CommitInfo {
                 commit.authorIdent.emailAddress,
             )
         }
-    }.getOrDefault(emptyCommitInfo)
+    }.getOrElse { e ->
+        throw IOException("Failed to read HEAD commit info", e)
+    }
 }
 
 @Throws(IOException::class)
