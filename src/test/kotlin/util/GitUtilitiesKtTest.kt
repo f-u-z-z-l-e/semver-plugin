@@ -11,7 +11,7 @@ internal class GitUtilitiesKtTest {
     @Test
     fun `Return checked out branch name`() {
         // given
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
 
         // when
         val branchName = getBranchName(projectDir)
@@ -23,7 +23,7 @@ internal class GitUtilitiesKtTest {
     @Test
     fun `Return head CommitInfo object`() {
         // given
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
 
         // when
         val commitInfo = getHeadCommitInfo(projectDir)
@@ -39,7 +39,7 @@ internal class GitUtilitiesKtTest {
     @Test
     fun `Return default Version object with 'nonexistent' prefix`() {
         // given
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
 
         // when
         val currentVersion = getCurrentVersion(projectDir, "nonexistent_prefix", null)
@@ -52,7 +52,7 @@ internal class GitUtilitiesKtTest {
     @Test
     fun `Return current Version object with 'test' prefix`() {
         // given
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
 
         // when
         val currentVersion = getCurrentVersion(projectDir, "test", null)
@@ -67,7 +67,7 @@ internal class GitUtilitiesKtTest {
     @Test
     fun `Tag the latest commit with the current version`() {
         // given
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
 
         // when
         tagHeadCommit(projectDir, "vv1.0.0", "Some commit message.")
@@ -82,7 +82,7 @@ internal class GitUtilitiesKtTest {
     @Test
     fun `Versions with PreRelease or BuildMetadata set should not increase version numbers `() {
         // given
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
 
         // when
         tagHeadCommit(projectDir, "version1.0.0", "Some commit message.")
@@ -98,7 +98,7 @@ internal class GitUtilitiesKtTest {
     }
 
     private fun assertTag(tagName: String) {
-        val projectDir = File("../../../../")
+        val projectDir = File(".")
         val repository = getRepository(projectDir)
         val tags = Git(repository).tagList().call().filter { it.name == "refs/tags/$tagName" }
         assertThat(tags.size, Matchers.equalTo(1))

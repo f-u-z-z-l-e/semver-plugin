@@ -85,10 +85,12 @@ fun tagHeadCommit(projectDir: File, version: String, message: String) {
 }
 
 @Throws(IOException::class)
-fun getRepository(projectDir: File): Repository? =
-    runCatching {
+fun getRepository(projectDir: File): Repository? {
+    val gitDir = File(projectDir.absoluteFile, ".git")
+    if (!gitDir.exists()) return null
+    return runCatching {
         FileRepositoryBuilder()
-            .findGitDir(projectDir.absoluteFile)
+            .setGitDir(gitDir)
             .build()
     }.getOrElse { e ->
         if (e is IllegalArgumentException && isJGitException(e)) {
@@ -97,6 +99,7 @@ fun getRepository(projectDir: File): Repository? =
             throw e
         }
     }
+}
 
 /**
  * JGit throws an IllegalArgumentException if there is no Git repo (message with JGit 6.1.0.202203080745-r is
