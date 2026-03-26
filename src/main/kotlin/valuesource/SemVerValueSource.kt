@@ -46,12 +46,14 @@ abstract class SemVerValueSource : ValueSource<SemVerResult, SemVerValueSource.P
             else -> version.incrementPatchVersion()
         }
 
-        if (getBranchName(projectDir).equals(releaseBranchString, true)) {
+        val branchName = getBranchName(projectDir)
+
+        if (branchName.equals(releaseBranchString, true)) {
             version.preRelease = null
             version.buildMetadata = null
         } else {
             version.preRelease =
-                preReleaseString.ifBlank { getBranchName(projectDir).toPreReleaseString() }
+                preReleaseString.ifBlank { branchName.toPreReleaseString() }
             version.buildMetadata = headCommitSha
         }
 
