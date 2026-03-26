@@ -8,7 +8,6 @@ import java.nio.file.Files
 import java.nio.file.Files.isDirectory
 
 class SemVerPluginNoGitTest : AbstractPluginTest() {
-
     @BeforeEach
     @Throws(Exception::class)
     fun setup() {
@@ -21,19 +20,21 @@ class SemVerPluginNoGitTest : AbstractPluginTest() {
     @Test
     fun `Display version to cmd without Git repository present`() {
         // given
-        val eol = System.getProperty("line.separator")
+        val eol = System.lineSeparator()
         val buildFileContent = """plugins { id("ch.fuzzle.gradle.semver") }$eol"""
 
         writeFile(buildFile, buildFileContent)
 
         // when
-        val result = GradleRunner.create()
-            .withProjectDir(projectDir)
-            .withPluginClasspath()
-            .withArguments("displayVersion")
-            .forwardOutput()
-            .withJaCoCo()
-            .build()
+        val result =
+            GradleRunner
+                .create()
+                .withProjectDir(projectDir)
+                .withPluginClasspath()
+                .withArguments("displayVersion")
+                .forwardOutput()
+                .withJaCoCo()
+                .build()
 
         // then
         assertThat(result.output, containsString("BUILD SUCCESSFUL"))

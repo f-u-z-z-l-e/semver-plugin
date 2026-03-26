@@ -1,64 +1,67 @@
 plugins {
     `java-gradle-plugin`
-    kotlin("jvm") version "1.6.21"
-    id("com.gradle.plugin-publish") version "1.0.0-rc-2"
-    id("ch.fuzzle.gradle.semver") version "0.3.9"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.gradle.plugin.publish)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ch.fuzzle.gradle.semver)
+    alias(libs.plugins.jacoco.testkit)
     jacoco
-    id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
 }
+
 description = "gradle semantic versioning plugin"
 group = "ch.fuzzle.gradle.semver"
-
-dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.eclipse.jgit:org.eclipse.jgit:6.1.0.202203080745-r")
-
-    testImplementation(gradleTestKit())
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
-}
-
-// Toolchain for Kotlin
-kotlin {
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
 
 repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation(libs.jgit)
+
+    testImplementation(gradleTestKit())
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.hamcrest)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    compilerOptions {
+        allWarningsAsErrors = true
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+    }
+}
+
 gradlePlugin {
+    website.set("https://github.com/f-u-z-z-l-e/semver-plugin")
+    vcsUrl.set("https://github.com/f-u-z-z-l-e/semver-plugin")
     plugins {
         create("semVerPlugin") {
             id = "ch.fuzzle.gradle.semver"
             displayName = "gradle semantic versioning plugin"
             description = "This plugin adds tasks to facilitate semantic versioning of gradle projects."
             implementationClass = "SemVerPlugin"
+            tags.set(listOf("build", "semver", "versioning", "git", "kotlin"))
         }
-    }
-}
-
-pluginBundle {
-    website = "https://github.com/f-u-z-z-l-e/semver-plugin"
-    vcsUrl = "https://github.com/f-u-z-z-l-e/semver-plugin"
-    tags = listOf("build", "semver", "versioning", "git", "kotlin")
-}
-
-tasks {
-    // Use the built-in JUnit support of Gradle.
-    "test"(Test::class) {
-        useJUnitPlatform()
     }
 }
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = true
-        html.isEnabled = false
+        xml.required.set(true)
+        html.required.set(false)
     }
 }
 

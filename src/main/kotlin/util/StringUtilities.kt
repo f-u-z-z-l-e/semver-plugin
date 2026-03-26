@@ -9,10 +9,10 @@ fun getStringOrDefault(string: Any?, default: String): String {
 
 fun String.toPreReleaseString(): String {
     val stringList = this.split('-')
-    return if (stringList.size > 1) stringList[0] + stringList.subList(1, stringList.size).joinToString("") {
+    return if (stringList.size > 1) stringList[0] + stringList.subList(1, stringList.size).joinToString("") { str ->
         when {
-            it[0].isDigit() -> "_$it"
-            else -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            str[0].isDigit() -> "_$str"
+            else -> str.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         }
     } else this
 }
