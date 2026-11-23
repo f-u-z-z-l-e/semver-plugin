@@ -9,7 +9,6 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-import java.io.InputStream
 import java.nio.file.Files
 
 abstract class AbstractPluginTest {
@@ -69,16 +68,8 @@ abstract class AbstractPluginTest {
         BufferedWriter(FileWriter(destination)).use { it.write(content) }
     }
 
-    private fun InputStream.toFile(file: File) {
-        use { input ->
-            file.outputStream().use { input.copyTo(it) }
-        }
-    }
-
     fun GradleRunner.withJaCoCo(): GradleRunner {
-        javaClass.classLoader
-            .getResourceAsStream("testkit-gradle.properties")
-            ?.toFile(File(projectDir, "gradle.properties"))
+        writeFile(File(projectDir, "settings.gradle.kts"), """plugins { id("jacoco-testkit-coverage") }""")
         return this
     }
 }
