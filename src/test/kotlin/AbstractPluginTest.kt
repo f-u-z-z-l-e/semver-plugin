@@ -32,7 +32,7 @@ abstract class AbstractPluginTest {
     fun createInitialCommit() {
         buildFile = Files.createFile(projectDir.toPath().resolve("build.gradle.kts")).toFile()
 
-        git = Git.init().setDirectory(projectDir).call()
+        git = Git.init().setInitialBranch("master").setDirectory(projectDir).call()
         git.add().addFilepattern("*").call()
         git.commit().setSign(false).setMessage("Add build.gradle file.").call()
     }
@@ -46,7 +46,7 @@ abstract class AbstractPluginTest {
         remoteConfig.update(config)
         config.save()
 
-        Git.init().setDirectory(remoteDir).call()
+        Git.init().setInitialBranch("master").setDirectory(remoteDir).call()
     }
 
     @Throws(GitAPIException::class)
