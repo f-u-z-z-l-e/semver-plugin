@@ -22,10 +22,6 @@ jobs:
     - name: Switch from detached state to branch
       run: git checkout "${GITHUB_REF:11}"
 
-    # using a user token, as ${{ secrets.GITHUB_TOKEN }} would not trigger a subsequent build.
-    - name: Configure git remote
-      run: git remote set-url origin https://${{ github.actor }}:${{ secrets.ci_token }}@github.com/f-u-z-z-l-e/semver-plugin.git
-
     - name: Set up Java 17
       uses: actions/setup-java@v6
       with:
@@ -48,3 +44,11 @@ jobs:
 
     - name: Tag commit & push to origin
       run: ./gradlew tagHeadCommit pushTagToOrigin
+
+    - name: Create GitHub release
+      if: github.ref == 'refs/heads/master'
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        tag=$(git tag --points-at HEAD | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+        gh release create "$tag" --verify-tag --title "$tag" --generate-notes
